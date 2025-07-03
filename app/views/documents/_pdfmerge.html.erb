@@ -1,0 +1,14 @@
+<p>pdf merge</p>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const names = JSON.parse(sessionStorage.getItem("selectedFileNames") || "[]");
+    if (names.length) {
+      document.querySelector("#file-list").innerText = names.join("\n");
+    }
+  });
+</script>
+
+<div>
+  <h2>Selected PDF files:</h2>
+  <pre id="file-list"></pre>
+</div>

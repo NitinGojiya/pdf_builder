@@ -65,3 +65,8 @@ end
 gem "tailwindcss-ruby", "~> 4.1"
 
 gem "tailwindcss-rails", "~> 4.2"
+
+
+gem "combine_pdf"          # Merge PDFs
+gem "mini_magick"          # Image to PDF
+gem "docsplit"             # (optional) Word/Docx to PDF
