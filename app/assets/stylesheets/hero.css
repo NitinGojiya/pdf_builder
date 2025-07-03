@@ -1,0 +1,10 @@
+.hero-back{
+    background-color: #717970;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 100%;
+    width: 100%;
+    margin: 2rem auto;
+    height: 100%;
+}
