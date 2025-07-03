@@ -48,8 +48,13 @@
     </ul>
   </div>
       <div class="flex items-center gap-4">
-        <div><button class="hover:text-green-500 cursor-pointer">login</button></div>
+        <% unless authenticated? %>
+        <div><%=link_to "login", new_session_path,class:"hover:text-green-500 cursor-pointer"%></div>
         <div><button class="btn btn-success btn-outline">Signup</button></div>
+        <%end%>
+        <div>
+          <%= button_to "Log out", session_path, method: :delete ,class:"btn btn-success btn-outline" if authenticated? %>
+        </div>
 
       </div>
     <div class="dropdown dropdown-hover dropdown-left dropdown-bottom">
