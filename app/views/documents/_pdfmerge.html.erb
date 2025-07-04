@@ -1,14 +1,55 @@
-<p>pdf merge</p>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const names = JSON.parse(sessionStorage.getItem("selectedFileNames") || "[]");
-    if (names.length) {
-      document.querySelector("#file-list").innerText = names.join("\n");
-    }
-  });
-</script>
+ <!-- Main container for the layout -->
+    <div class="flex flex-1 flex-col lg:flex-row">
 
-<div>
-  <h2>Selected PDF files:</h2>
-  <pre id="file-list"></pre>
-</div>
+        <!-- Left Content Area (File Display) -->
+        <div class="flex-1 bg-white p-6 lg:p-10 flex flex-col items-center justify-center relative rounded-lg lg:rounded-none lg:rounded-l-lg shadow-md lg:shadow-none mx-4 my-4 lg:mx-0 lg:my-0">
+
+            <!-- Header for small screens (hidden on large screens as the sidebar has it) -->
+            <h1 class="text-2xl font-semibold text-gray-800 mb-6 lg:hidden">Merge PDF</h1>
+
+            <!-- Container for PDF file cards - now allows multiple cards and wrapping -->
+            <div class="flex flex-wrap justify-center gap-6 ">
+              <div  data-pdf-upload-target="previewContainer" class="flex flex-wrap justify-center gap-4 h-screen overflow-y-auto">
+              </div>
+                <!-- here the card of pdf view -->
+            </div>
+
+            <!-- Action Buttons (Add, Sort) - positioned absolutely for visual appeal -->
+            <div class="absolute top-6 right-6 flex flex-col space-y-4">
+                <!-- Add Button -->
+                <button
+                data-action="click->pdf-upload#select"
+                class="w-12 h-12 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" aria-label="Add more files">
+                    <i class="fas fa-plus text-xl"></i>
+                </button>
+                <!-- Sort Button -->
+                <button class="w-12 h-12 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full flex items-center justify-center shadow-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50" aria-label="Sort files">
+                    <i class="fas fa-sort-alpha-down text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Sidebar (Instructions and Merge Button) -->
+        <div class="w-full lg:w-96 bg-white border-t lg:border-t-0 lg:border-l border-gray-200 shadow-lg lg:shadow-none flex flex-col rounded-lg lg:rounded-none lg:rounded-r-lg mx-4 mb-4 lg:mx-0 lg:my-0">
+            <!-- Sidebar Header -->
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-2xl font-semibold text-gray-800">Merge PDF</h2>
+            </div>
+
+            <!-- Instructions Section -->
+            <div class="flex-1 p-6 flex flex-col justify-between">
+                <div class="bg-blue-50 text-blue-800 p-4 rounded-lg text-sm leading-relaxed border border-blue-200">
+                    To change the order of your PDFs, drag and drop the files as you want.
+                </div>
+            </div>
+
+            <!-- Merge PDF Button -->
+            <div class="p-6 border-t border-gray-200 sticky bottom-10 right-0">
+                <button class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-lg flex items-center justify-center transition-colors duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+                    <i class="fas fa-file-pdf mr-2"></i>
+                    Merge PDF
+                </button>
+            </div>
+        </div>
+
+    </div>
