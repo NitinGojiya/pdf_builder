@@ -50,69 +50,45 @@ export default class extends Controller {
   }
 
   filepreview() {
-    this.previewContainerTarget.innerHTML = '';
+  this.previewContainerTarget.innerHTML = '';
 
-    this.files.forEach(file => {
-      const blobURL = URL.createObjectURL(file);
+  // Ensure this.files is a mutable array
+  this.files = Array.from(this.files);
 
-      const previewCard = document.createElement('div');
-      previewCard.className = "flex flex-col items-center justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm  cursor-pointer mb-2";
+  this.files.forEach((file, index) => {
+    const blobURL = URL.createObjectURL(file);
 
-      previewCard.innerHTML = `
-      <div class="preview-thumbnail w-[300px] p-5 h-40 bg-gray-200 rounded-md mb-3 flex items-center justify-center text-gray-500 overflow-hidden">
+    const previewCard = document.createElement('div');
+    previewCard.className = "relative flex flex-col items-center justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm cursor-pointer mb-2";
+
+    previewCard.innerHTML = `
+      <div class="preview-thumbnail w-full p-5 h-40 bg-gray-200 rounded-md mb-3 flex items-center justify-center text-gray-500 overflow-hidden">
         <span class="text-sm text-gray-500">Click to preview PDF</span>
       </div>
       <p class="w-[300px] text-sm font-medium text-gray-700 text-center truncate px-2">${file.name}</p>
+      <button class="delete-btn absolute top-1 left-1 text-red-500 text-xl font-bold hover:text-red-700" title="Delete"><i class="fa-solid fa-trash"></i></button>
     `;
 
-      // Add click behavior to show the PDF preview
-      previewCard.querySelector('.preview-thumbnail').addEventListener('click', function () {
-        this.innerHTML = `
-        <img src="${blobURL}" type="application/pdf" class="w-full h-full object-cover" />
+    // PDF preview on thumbnail click
+    previewCard.querySelector('.preview-thumbnail').addEventListener('click', function () {
+      this.innerHTML = `
+        <iframe src="${blobURL}" class="w-full h-full"></iframe>
       `;
-      });
-
-      this.previewContainerTarget.appendChild(previewCard);
-    });
-  }
-
-  merge() {
-    if (this.files.length === 0) {
-      alert("No files selected");
-      return;
-    }
-
-    const formData = new FormData();
-    this.files.forEach((file, index) => {
-      formData.append('files[]', file); // Rails accepts array inputs with this syntax
     });
 
-    fetch('/pdf_merge', {
-      method: 'POST',
-      headers: {
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      },
-      body: formData
-    })
-      .then(response => {
-        if (!response.ok) throw new Error("Merge failed");
-        return response.blob();
-      })
-      .then(mergedPdf => {
-        // Download merged PDF or redirect
-        const url = URL.createObjectURL(mergedPdf);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'merged.pdf';
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      })
-      .catch(error => {
-        console.error("Merge error:", error);
-        alert("An error occurred while merging.");
-      });
-  }
+    // Handle file deletion
+    previewCard.querySelector('.delete-btn').addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent preview click
+      this.files.splice(index, 1); // Remove from files array
+      this.filepreview(); // Re-render preview list
+    });
+
+    this.previewContainerTarget.appendChild(previewCard);
+  });
+}
+
+
+
   merge() {
     if (this.files.length === 0) {
       alert("No files selected");
