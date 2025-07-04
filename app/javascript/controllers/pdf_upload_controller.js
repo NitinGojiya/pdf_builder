@@ -59,7 +59,7 @@ filepreview() {
     const blobURL = URL.createObjectURL(file);
 
     const previewCard = document.createElement('div');
-    previewCard.className = "relative flex flex-col items-center justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm cursor-pointer mb-2";
+    previewCard.className = "relative flex flex-col items-center justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm cursor-grab mb-2";
     previewCard.draggable = true;
     previewCard.dataset.index = index;
 
@@ -75,10 +75,10 @@ filepreview() {
       </div>
 
       <!-- Filename -->
-      <p class="w-[300px] text-sm font-medium text-gray-700 text-center truncate px-2">${file.name}</p>
+      <p class="w-[300px]  text-sm font-medium text-gray-700 text-center truncate px-2">${file.name}</p>
 
       <!-- Delete Button -->
-      <button class="delete-btn absolute top-1 left-1 text-red-500 text-xl font-bold hover:text-red-700" title="Delete">
+      <button class="delete-btn absolute top-1 left-1 text-red-500 text-2xl font-bold hover:text-red-700" title="Delete">
         <i class="fa-solid fa-trash"></i>
       </button>
     `;

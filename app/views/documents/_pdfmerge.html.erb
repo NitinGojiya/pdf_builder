@@ -44,13 +44,7 @@
             </div>
 
             <!-- Merge PDF Button -->
-            <%=form_with url:combine_pdfs_path do |form|%>
-            <%= form.file_field :files,
-                'data-pdf-upload-target': "fileInput",
-                multiple: true,
-                class: "hidden",
-                data: { action: "change->pdf-upload#filesSelected" } %>
-            <%end%>
+
             <div class="p-6 border-t border-gray-200 sticky bottom-10 right-0">
 
                 <button

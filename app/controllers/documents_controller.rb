@@ -41,4 +41,7 @@ class DocumentsController < ApplicationController
           type: "application/pdf",
           disposition: "attachment"
   end
+
+  def compress
+  end
 end

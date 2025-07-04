@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   --color-text: #ffffff;
-  --color-background: #007c3e;
+  --color-background: #00a63e;
   --color-outline: #449d71;
   --color-shadow: #00000080;
 }
