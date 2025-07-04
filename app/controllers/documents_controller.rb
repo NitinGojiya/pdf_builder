@@ -35,6 +35,10 @@ class DocumentsController < ApplicationController
     merged_pdf_file.close
     merged_pdf_file.unlink # Deletes the temp file
 
-    render json: { message: "PDFs merged successfully", document_id: document.id }, status: :ok
+    # render json: { message: "PDFs merged successfully", document_id: document.id }, status: :ok
+    send_data merged_pdf.to_pdf,
+          filename: "pdfBuilder_merged.pdf",
+          type: "application/pdf",
+          disposition: "attachment"
   end
 end

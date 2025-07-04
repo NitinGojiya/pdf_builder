@@ -116,7 +116,7 @@ export default class extends Controller {
         const url = URL.createObjectURL(mergedPdf);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'merged.pdf';
+        link.download = 'pdfBuilder_merged.pdf';
         document.body.appendChild(link);
         link.click();
         link.remove();
