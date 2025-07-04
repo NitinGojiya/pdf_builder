@@ -1,9 +1,9 @@
 <div class="flex items-center justify-center w-[100%]" data-controller="pdf-upload">
   <div style="display: block;" data-pdf-upload-target="uploadContainer">
-  <%=render 'upload'%>
+    <%=render 'upload' %>
   </div>
   <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-upload-target="pdfmergeContainer">
-    <%=render 'pdfmerge'%>
+    <%=render 'pdfmerge' %>
   </div>
+  <%=render 'shared/loader' %>
 </div>
-

@@ -111,3 +111,33 @@
 .btn-show{
     display: visible;
 }
+
+/* loader start*/
+  #fullscreen-loader {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.7);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #12e370;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+/* loader end */
