@@ -44,12 +44,23 @@
             </div>
 
             <!-- Merge PDF Button -->
+            <%=form_with url:combine_pdfs_path do |form|%>
+            <%= form.file_field :files,
+                'data-pdf-upload-target': "fileInput",
+                multiple: true,
+                class: "hidden",
+                data: { action: "change->pdf-upload#filesSelected" } %>
+            <%end%>
             <div class="p-6 border-t border-gray-200 sticky bottom-10 right-0">
-                <button class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-lg flex items-center justify-center transition-colors duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+
+                <button
+                data-action="click->pdf-upload#merge"
+                class="w-full py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-lg flex items-center justify-center transition-colors duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
                     <i class="fas fa-file-pdf mr-2"></i>
                     Merge PDF
                 </button>
             </div>
+
         </div>
 
     </div>
