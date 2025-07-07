@@ -1,0 +1,9 @@
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-split">
+  <div style="display: block;" data-pdf-split-target="uploadContainer">
+    <%= render partial: 'uploadsplit' %>
+  </div>
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-split-target="pdfmergeContainer">
+    <%=render 'pdfsplitview' %>
+  </div>
+  <%=render 'shared/loader' %>
+</div>

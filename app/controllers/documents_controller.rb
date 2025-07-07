@@ -136,4 +136,7 @@ class DocumentsController < ApplicationController
                 disposition: "attachment"
     end
   end
+
+  def pdf_split
+  end
 end
