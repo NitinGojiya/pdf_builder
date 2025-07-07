@@ -1,13 +1,8 @@
 <div class="p-6 sm:p-8 lg:p-10  text-center max-w-xl w-full">
     <!-- Main Title -->
     <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
-       <% if defined?(pdftype) && pdftype.present? %>
-        <%= pdftype %> PDF files
-       <% else %>
         Merge PDF files
-       <% end %>
     </h1>
-
     <!-- Description -->
     <p class="text-base sm:text-lg text-gray-600 mb-8">
         Combine PDFs in the order you want with the easiest PDF merger available.
@@ -27,6 +22,8 @@
                 'data-pdf-upload-target': "fileInput",
                 multiple: true,
                 class: "hidden",
+                accept: "application/pdf",
+                multiple: true,
                 data: { action: "change->pdf-upload#filesSelected" } %>
             <%end%>
 

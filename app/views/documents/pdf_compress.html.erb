@@ -1,0 +1,9 @@
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-compress">
+  <div style="display: block;" data-pdf-compress-target="uploadContainer">
+    <%= render partial: 'uploadcompress' %>
+  </div>
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-compress-target="pdfmergeContainer">
+    <%=render 'pdfcompressview' %>
+  </div>
+  <%=render 'shared/loader' %>
+</div>

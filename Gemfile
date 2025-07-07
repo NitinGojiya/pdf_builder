@@ -70,3 +70,7 @@ gem "tailwindcss-rails", "~> 4.2"
 gem "combine_pdf"          # Merge PDFs
 gem "mini_magick"          # Image to PDF
 gem "docsplit"             # (optional) Word/Docx to PDF
+
+
+gem "prawn"             # optional for PDF generation
+gem "rubyzip", "~> 2.3"

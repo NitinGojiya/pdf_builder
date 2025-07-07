@@ -1,0 +1,58 @@
+<h2 class="text-3xl ">Your History Files</h2>
+<div class="container mx-auto my-4">
+  <p class="text-lg">Here you can view all your  documents.</p>
+  <p class="text-sm text-gray-600">Click on the file names to view or download them.</p>
+</div>
+<% if @documents.any? %>
+<div class="overflow-x-auto">
+  <table border="1" cellpadding="5" cellspacing="0" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Created At</th>
+        <th> Files</th>
+        <th> PDF / ZIP</th>
+        <th> view</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @documents.each do |document| %>
+        <tr>
+          <td><%= document.title %></td>
+          <td><%= document.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+
+          <td>
+            <% document.uploads.each do |file| %>
+              <div>
+                <%= link_to file.filename.to_s, url_for(file), target: "_blank", rel: "noopener" %>
+              </div>
+            <% end %>
+          </td>
+
+          <td>
+            <% if document.file.attached? %>
+              <%= link_to document.file.filename.to_s, url_for(document.file), target: "_blank", rel: "noopener" %>
+            <% else %>
+              <em>No file</em>
+            <% end %>
+          </td>
+          <td>
+            <% if document.file.attached? %>
+              <%= link_to  url_for(document.file), target: "_blank", rel: "noopener",class:"text-green-500" do %>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
+                </svg>
+
+              <%end%>
+            <% else %>
+              <em>No file</em>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% else %>
+  <p>No compressed documents found.</p>
+<% end %>
