@@ -139,4 +139,83 @@ class DocumentsController < ApplicationController
 
   def pdf_split
   end
+
+  # def split
+  #   uploaded_pdf = params[:files]&.first # Assuming single file upload
+  #   pages = params[:page_numbers]
+
+  #   return render plain: "No file uploaded", status: :bad_request unless uploaded_pdf
+  #   return render plain: "No pages specified", status: :bad_request unless pages.present?
+
+  #   page_numbers = pages.map(&:to_i).uniq.sort
+
+  #   original_pdf = CombinePDF.load(uploaded_pdf.tempfile.path)
+  #   extracted_pdf = CombinePDF.new
+
+  #   page_numbers.each do |page_number|
+  #     index = page_number - 1
+  #     if index >= 0 && index < original_pdf.pages.count
+  #       extracted_pdf << original_pdf.pages[index]
+  #     end
+  #   end
+
+  #   extracted_pdf_path = Rails.root.join("tmp", "selected_pages.pdf")
+  #   extracted_pdf.save extracted_pdf_path
+
+  #   zip_path = Rails.root.join("tmp", "selected_pages.zip")
+  #   Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
+  #     zipfile.add("selected_pages.pdf", extracted_pdf_path)
+  #   end
+
+  #   send_file zip_path, type: "application/zip", filename: "selected_pages.zip"
+  # end
+  require "stringio"
+
+  def split
+    uploaded_pdf = params[:files]&.first
+    pages = params[:page_numbers]
+
+    return render plain: "No file uploaded", status: :bad_request unless uploaded_pdf
+    return render plain: "No pages specified", status: :bad_request unless pages.present?
+
+    # Step 1: Create the document record
+    document = Current.session.user.documents.create!(
+      title: "Compressed PDFs - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+
+    # Step 2: Attach the original uploaded file
+    document.uploads.attach(uploaded_pdf)
+
+    # Step 3: Load the uploaded PDF and extract pages
+    page_numbers = pages.map(&:to_i).uniq.sort
+    original_pdf = CombinePDF.load(uploaded_pdf.tempfile.path)
+
+    zip_buffer = Zip::OutputStream.write_buffer do |zipfile|
+      page_numbers.each do |page_number|
+        index = page_number - 1
+        next unless index >= 0 && index < original_pdf.pages.count
+
+        single_page_pdf = CombinePDF.new
+        single_page_pdf << original_pdf.pages[index]
+        pdf_data = single_page_pdf.to_pdf
+
+        zipfile.put_next_entry("page_#{page_number}.pdf")
+        zipfile.write(pdf_data)
+      end
+    end
+
+    # Step 4: Attach the final ZIP file to document.file
+    document.file.attach(
+      io: StringIO.new(zip_buffer.read),
+      filename: "selected_pages.zip",
+      content_type: "application/zip"
+    )
+
+    zip_buffer.rewind
+
+    # Step 5: Send back the ZIP of selected pages
+    send_data zip_buffer.read,
+              type: "application/zip",
+              filename: "selected_pages.zip"
+  end
 end

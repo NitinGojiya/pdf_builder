@@ -17,7 +17,7 @@
             class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto">
             Select PDF files
         </button>
-           <%=form_with url:combine_pdfs_path do |form|%>
+           <%=form_with url:split_path do |form|%>
             <%= form.file_field :files,
                 'data-pdf-split-target': "fileInput",
                 multiple: true,

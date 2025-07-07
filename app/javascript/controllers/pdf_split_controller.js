@@ -51,6 +51,10 @@ export default class extends Controller {
   }
 
 async filepreview() {
+
+  const loader = document.getElementById("fullscreen-loader");
+  loader.style.display = "flex"; // Show loader
+
   this.previewContainerTarget.innerHTML = '';
   this.files = Array.from(this.files);
 
@@ -122,7 +126,7 @@ async filepreview() {
     previewCard.appendChild(title);
 
     this.previewContainerTarget.appendChild(previewCard);
-
+    loader.style.display = "none"; // Hide loader after rendering
   });
 
 
@@ -140,6 +144,60 @@ logSelectedPages() {
     });
 
   console.log("Selected Page Numbers:", selectedPageNumbers);
+   return selectedPageNumbers;
+}
+
+// split request
+split() {
+  if (this.files.length === 0) {
+    alert("No files selected");
+    return;
+  }
+
+  const loader = document.getElementById("fullscreen-loader");
+  loader.style.display = "flex";
+
+
+  const selectedPageNumbers = this.logSelectedPages();
+  const formData = new FormData();
+
+  this.files.forEach(file => {
+    formData.append('files[]', file);
+  });
+
+  selectedPageNumbers.forEach(num => {
+    formData.append('page_numbers[]', num); // Corrected
+  });
+
+  fetch('/split', {
+    method: 'POST',
+    headers: {
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+    },
+    body: formData
+  })
+    .then(response => {
+      if (!response.ok) throw new Error("Split failed");
+      return response.blob();
+    })
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'selected_pages.zip';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      window.location.href = '/pdf_split';
+    })
+    .catch(error => {
+      console.error("Split in error:", error);
+      alert("An error occurred while splitting.");
+    })
+    .finally(() => {
+      loader.style.display = "none";
+    });
 }
 
 
