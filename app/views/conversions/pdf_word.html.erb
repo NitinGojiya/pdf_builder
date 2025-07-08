@@ -1,0 +1,9 @@
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-to-word">
+  <div style="display: block;" data-pdf-to-word-target="uploadContainer">
+    <%=render 'upload_pdf_for_word' %>
+  </div>
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-to-word-target="pdfmergeContainer">
+    <%=render 'preview_for_word' %>
+  </div>
+  <%=render 'shared/loader' %>
+</div>

@@ -73,4 +73,7 @@ gem "docsplit"             # (optional) Word/Docx to PDF
 
 
 gem "prawn"             # optional for PDF generation
-gem "rubyzip", "~> 2.3"
+gem "rubyzip", "~> 1.3"
+
+gem "pdf-reader" # PDF reading
+gem "caracal"    # DOCX generation

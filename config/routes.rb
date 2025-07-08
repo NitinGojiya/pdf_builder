@@ -16,4 +16,8 @@ Rails.application.routes.draw do
   # pdf split routes
   get "pdf_split", to: "documents#pdf_split", as: "pdf_split"
   post "split", to: "documents#split", as: "split"
+
+  # pdf to word routes
+  get "pdf_word", to: "conversions#pdf_word", as: "pdf_word"
+  post "convert_pdf_to_word", to: "conversions#convert_pdf_to_word", as: "convert_pdf_to_word"
 end
