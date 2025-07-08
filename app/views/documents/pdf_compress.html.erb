@@ -1,9 +1,14 @@
 <div class="flex items-center justify-center w-[100%]" data-controller="pdf-compress">
   <div style="display: block;" data-pdf-compress-target="uploadContainer">
-    <%= render partial: 'uploadcompress' %>
+     <%=render  partial: "shared/upload_pdf", locals: {
+      dynamic_text: "Compress pdf",
+      stimulus_controller:"pdf-compress",
+      dynamic_dec:"Reduce file size while optimizing for maximal PDF quality.",
+      multiple_files:true
+    }
+      %>
   </div>
   <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-compress-target="pdfmergeContainer">
     <%=render 'pdfcompressview' %>
   </div>
-  <%=render 'shared/loader' %>
 </div>

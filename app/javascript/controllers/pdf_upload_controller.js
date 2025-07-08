@@ -132,10 +132,7 @@ filepreview() {
   });
 }
 
-
-
-
- merge() {
+ sendrequest() {
   if (this.files.length === 0) {
     alert("No files selected");
     return;

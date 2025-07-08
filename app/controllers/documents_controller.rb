@@ -3,8 +3,7 @@ class DocumentsController < ApplicationController
   require "combine_pdf"
   require "zip"
   require "stringio"
-  def index
-  end
+
 
   def fileview
     @documents = Current.session.user.documents.with_attached_uploads.with_attached_file.order(created_at: :desc)
@@ -51,8 +50,7 @@ class DocumentsController < ApplicationController
           disposition: "attachment"
   end
 
-  def pdf_compress
-  end
+
   def compress
     uploaded_files = params[:files]
     compression_level = params[:level]
@@ -136,9 +134,6 @@ class DocumentsController < ApplicationController
                 type: "application/zip",
                 disposition: "attachment"
     end
-  end
-
-  def pdf_split
   end
 
   def split

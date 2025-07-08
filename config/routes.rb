@@ -20,4 +20,8 @@ Rails.application.routes.draw do
   # pdf to word routes
   get "pdf_word", to: "conversions#pdf_word", as: "pdf_word"
   post "convert_pdf_to_word", to: "conversions#convert_pdf_to_word", as: "convert_pdf_to_word"
+
+  # pdf to  powerpoint routes
+  get "pdf_ppt", to: "conversions#pdf_ppt", as: "pdf_ppt"
+  post "convert_pdf_to_ppt", to: "conversions#convert_pdf_to_ppt", as: "convert_pdf_to_ppt"
 end

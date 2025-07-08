@@ -1,9 +1,18 @@
 <div class="flex items-center justify-center w-[100%]" data-controller="pdf-split">
   <div style="display: block;" data-pdf-split-target="uploadContainer">
-    <%= render partial: 'uploadsplit' %>
+      <%=render  partial: "shared/upload_pdf", locals: {
+      dynamic_text: "Split pdf",
+      stimulus_controller:"pdf-split",
+      dynamic_dec:"Split PDFs in the order you want with the easiest PDF Splitter available.",
+      multiple_files:false
+    }
+      %>
   </div>
   <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-split-target="pdfmergeContainer">
-    <%=render 'pdfsplitview' %>
+   <%#render 'pdfsplitview'%>
+    <%=render partial:'shared/preview_for_selected_file',locals: {
+      dynamic_text: "Split pdf",
+      dynamic_dec:"Split Pdf Unlimited, Effortless, and Always Free!",
+      stimulus_controller:"pdf-split" } %>
   </div>
-  <%=render 'shared/loader' %>
 </div>

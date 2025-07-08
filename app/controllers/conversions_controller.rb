@@ -3,8 +3,6 @@ require "pdf-reader"
 require "caracal"
 require "securerandom"
 class ConversionsController < ApplicationController
-  def pdf_word
-  end
   def convert_pdf_to_word
     uploaded_files = params[:files]
     return head :bad_request if uploaded_files.blank?

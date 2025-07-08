@@ -1,31 +1,33 @@
 <div class="p-6 sm:p-8 lg:p-10  text-center max-w-xl w-full">
     <!-- Main Title -->
     <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
-        Merge PDF files
+         <%= dynamic_text.capitalize %>
     </h1>
     <!-- Description -->
     <p class="text-base sm:text-lg text-gray-600 mb-8">
-        Combine PDFs in the order you want with the easiest PDF merger available.
+        <%= dynamic_dec.capitalize %>
     </p>
-
     <!-- Buttons Container -->
     <div class="">
 
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 ">
       <!-- Select PDF Files Button -->
-        <button data-pdf-upload-target="selectButton" data-action="click->pdf-upload#select"
+        <button data-<%= stimulus_controller %>-target="selectButton" data-action="click-><%=stimulus_controller%>#select"
             class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto">
             Select PDF files
         </button>
-           <%=form_with url:combine_pdfs_path do |form|%>
-            <%= form.file_field :files,
-                'data-pdf-upload-target': "fileInput",
-                multiple: true,
-                class: "hidden",
-                accept: "application/pdf",
-                multiple: true,
-                data: { action: "change->pdf-upload#filesSelected" } %>
-            <%end%>
+
+        <%= form_with do |form| %>
+        <%= form.file_field :files,
+            class: "hidden",
+            accept: "application/pdf",
+            multiple: multiple_files,
+            data: {
+            "#{stimulus_controller}-target": "fileInput",
+            action: "change->#{stimulus_controller}#filesSelected"
+            } %>
+        <% end %>
+
 
         <!-- Icon Buttons Container -->
         <div class="flex gap-4">
@@ -45,8 +47,8 @@
         </div>
         </div>
         <div class="btn-conteiner" style="visibility: hidden;"
-        data-pdf-upload-target="buttonContainer"
-        data-action="click->pdf-upload#next"
+        data-<%= stimulus_controller %>-target="buttonContainer"
+        data-action="click-><%=stimulus_controller%>#next"
         >
         <a class="btn-content"  >
             <span class="btn-title">NEXT</span>
@@ -69,7 +71,5 @@
     </p>
 
     <div >
-
     </div>
-
 </div>

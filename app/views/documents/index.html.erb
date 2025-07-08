@@ -1,9 +1,17 @@
 <div class="flex items-center justify-center w-[100%]" data-controller="pdf-upload">
   <div style="display: block;" data-pdf-upload-target="uploadContainer">
-    <%=render 'uploadmerge' %>
+    <%=render  partial: "shared/upload_pdf", locals: {
+      dynamic_text: "Merge pdf",
+      stimulus_controller:"pdf-upload",
+      dynamic_dec:"Combine PDFs in the order you want with the easiest PDF merger available.",
+      multiple_files:true
+    }
+      %>
   </div>
   <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-upload-target="pdfmergeContainer">
-    <%=render 'pdfmergeview' %>
+    <%=render partial:'shared/preview_for_selected_file',locals: {
+      dynamic_text: "Merge pdf",
+      dynamic_dec:"Merge Pdf Unlimited, Effortless, and Always Free!",
+      stimulus_controller:"pdf-upload" } %>
   </div>
-  <%=render 'shared/loader' %>
 </div>
