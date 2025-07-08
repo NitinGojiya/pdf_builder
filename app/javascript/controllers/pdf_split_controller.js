@@ -134,7 +134,7 @@ async filepreview() {
 
 }
 
- // ✅ Final Step: Log selected page numbers only
+ //  Final Step: Log selected page numbers only
 logSelectedPages() {
   const selectedPageNumbers = Array.from(this.previewContainerTarget.children)
     .filter(card => card.querySelector('input[type="checkbox"]').checked)

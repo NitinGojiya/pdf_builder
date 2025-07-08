@@ -7,10 +7,10 @@ export default class extends Controller {
      this.files = [] // Store files in memory
     console.log("PDF Compress Controller connected");
   }
-    select() {
+  select() {
     this.fileInputTarget.click();
   }
-   filesSelected(event) {
+  filesSelected(event) {
     console.log("Files selected:", event.target.files);
     const newFiles = Array.from(event.target.files);
 
@@ -24,7 +24,7 @@ export default class extends Controller {
     this.fileInputTarget.value = '';
   }
 
-   updateButtonText() {
+  updateButtonText() {
     if (this.files.length === 0) {
       this.selectButtonTarget.textContent = "Select PDF files";
     } else {
@@ -194,7 +194,4 @@ compress() {
       loader.style.display = "none";
     });
 }
-
-
-
 }

@@ -2,6 +2,7 @@ class DocumentsController < ApplicationController
   require "securerandom"
   require "combine_pdf"
   require "zip"
+  require "stringio"
   def index
   end
 
@@ -11,7 +12,7 @@ class DocumentsController < ApplicationController
 
 
   def combine
-   uploaded_files = params[:files] # => array of ActionDispatch::Http::UploadedFile
+    uploaded_files = params[:files] # => array of ActionDispatch::Http::UploadedFile
     return render json: { error: "No files provided" }, status: :unprocessable_entity if uploaded_files.blank?
 
     merged_pdf = CombinePDF.new
@@ -140,37 +141,6 @@ class DocumentsController < ApplicationController
   def pdf_split
   end
 
-  # def split
-  #   uploaded_pdf = params[:files]&.first # Assuming single file upload
-  #   pages = params[:page_numbers]
-
-  #   return render plain: "No file uploaded", status: :bad_request unless uploaded_pdf
-  #   return render plain: "No pages specified", status: :bad_request unless pages.present?
-
-  #   page_numbers = pages.map(&:to_i).uniq.sort
-
-  #   original_pdf = CombinePDF.load(uploaded_pdf.tempfile.path)
-  #   extracted_pdf = CombinePDF.new
-
-  #   page_numbers.each do |page_number|
-  #     index = page_number - 1
-  #     if index >= 0 && index < original_pdf.pages.count
-  #       extracted_pdf << original_pdf.pages[index]
-  #     end
-  #   end
-
-  #   extracted_pdf_path = Rails.root.join("tmp", "selected_pages.pdf")
-  #   extracted_pdf.save extracted_pdf_path
-
-  #   zip_path = Rails.root.join("tmp", "selected_pages.zip")
-  #   Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
-  #     zipfile.add("selected_pages.pdf", extracted_pdf_path)
-  #   end
-
-  #   send_file zip_path, type: "application/zip", filename: "selected_pages.zip"
-  # end
-  require "stringio"
-
   def split
     uploaded_pdf = params[:files]&.first
     pages = params[:page_numbers]
@@ -180,7 +150,7 @@ class DocumentsController < ApplicationController
 
     # Step 1: Create the document record
     document = Current.session.user.documents.create!(
-      title: "Compressed PDFs - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}"
+      title: "Split PDFs - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}"
     )
 
     # Step 2: Attach the original uploaded file
