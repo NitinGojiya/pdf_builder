@@ -1,7 +1,7 @@
 .hero-back{
-    background-color: #717970;
+    background-color: #c3d68f;
 
-    background-image: url('../images/hero.jpg'); /* 👈 use correct path */
+    /* background-image: url('../images/hero.jpg'); 👈 use correct path */
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

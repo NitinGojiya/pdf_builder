@@ -132,4 +132,48 @@ filepreview() {
     this.previewContainerTarget.appendChild(previewCard);
   });
 }
+
+sendrequest() {
+  if (this.files.length === 0) {
+    alert("No files selected");
+    return;
+  }
+
+  const loader = document.getElementById("fullscreen-loader");
+  loader.style.display = "flex"; // Show loader
+
+  const formData = new FormData();
+  this.files.forEach((file, index) => {
+    formData.append('files[]', file); // Rails accepts array inputs with this syntax
+  });
+
+  fetch('/convert_pdf_to_ppt', {
+    method: 'POST',
+    headers: {
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    },
+    body: formData
+  })
+    .then(response => {
+      if (!response.ok) throw new Error("ppt convert failed");
+      return response.blob();
+    })
+    .then(converted => {
+      const url = URL.createObjectURL(converted);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'converted_presentations.zip';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.location.href = '/pdf_ppt'; // Redirect to the ppt page
+    })
+    .catch(error => {
+      console.error("ppt convert error:", error);
+      alert("An error occurred while converting.");
+    })
+    .finally(() => {
+      loader.style.display = "none"; // Hide loader
+    });
+}
 }
