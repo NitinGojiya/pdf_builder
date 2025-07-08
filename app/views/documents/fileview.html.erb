@@ -1,51 +1,51 @@
-<h2 class="text-3xl ">Your History Files</h2>
-<div class="container mx-auto my-4">
-  <p class="text-lg">Here you can view all your  documents.</p>
-  <p class="text-sm text-gray-600">Click on the file names to view or download them.</p>
+<h2 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">Your History Files</h2>
+<div class="container mx-auto my-4 px-4">
+  <p class="text-lg text-gray-800 dark:text-gray-200">Here you can view all your documents.</p>
+  <p class="text-sm text-gray-600 dark:text-gray-400">Click on the file names to view or download them.</p>
 </div>
+
 <% if @documents.any? %>
-<div class="overflow-x-auto">
-  <table border="1" cellpadding="5" cellspacing="0" class="table table-striped">
+<div class="overflow-x-auto shadow-lg rounded-lg mx-4">
+  <table class="min-w-full bg-white dark:bg-gray-700">
     <thead>
-      <tr>
-        <th>Title</th>
-        <th>Created At</th>
-        <th> Files</th>
-        <th> PDF / ZIP</th>
-        <th> view</th>
+      <tr class="bg-green-600 text-white">
+        <th class="py-3 px-4 uppercase font-semibold text-sm text-left rounded-tl-lg">Title</th>
+        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Created At</th>
+        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Files</th>
+        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">PDF / ZIP</th>
+        <th class="py-3 px-4 uppercase font-semibold text-sm text-left rounded-tr-lg">View</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="text-gray-700 dark:text-gray-300">
       <% @documents.each do |document| %>
-        <tr>
-          <td><%= document.title %></td>
-          <td><%= document.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+        <tr class="border-b border-gray-200 dark:border-gray-600 hover:bg-green-50 dark:hover:bg-gray-600">
+          <td class="py-3 px-4"><%= document.title %></td>
+          <td class="py-3 px-4"><%= document.created_at.strftime("%Y-%m-%d %H:%M") %></td>
 
-          <td>
+          <td class="py-3 px-4">
             <% document.uploads.each do |file| %>
-              <div>
-                <%= link_to file.filename.to_s, url_for(file), target: "_blank", rel: "noopener" %>
+              <div class="mb-1">
+                <%= link_to file.filename.to_s, url_for(file), target: "_blank", rel: "noopener", class: "text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200 underline" %>
               </div>
             <% end %>
           </td>
 
-          <td>
+          <td class="py-3 px-4">
             <% if document.file.attached? %>
-              <%= link_to document.file.filename.to_s, url_for(document.file), target: "_blank", rel: "noopener" %>
+              <%= link_to document.file.filename.to_s, url_for(document.file), target: "_blank", rel: "noopener", class: "text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-200 underline" %>
             <% else %>
-              <em>No file</em>
+              <em class="text-gray-500 dark:text-gray-400">No file</em>
             <% end %>
           </td>
-          <td>
+          <td class="py-3 px-4">
             <% if document.file.attached? %>
-              <%= link_to  url_for(document.file), target: "_blank", rel: "noopener",class:"text-green-500" do %>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
+              <%= link_to url_for(document.file), target: "_blank", rel: "noopener", class: "text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 inline-block p-1 rounded-full hover:bg-green-100 dark:hover:bg-gray-600 transition duration-150 ease-in-out" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
                 </svg>
-
-              <%end%>
+              <% end %>
             <% else %>
-              <em>No file</em>
+              <em class="text-gray-500 dark:text-gray-400">No file</em>
             <% end %>
           </td>
         </tr>
@@ -54,5 +54,5 @@
   </table>
 </div>
 <% else %>
-  <p>No compressed documents found.</p>
+  <p class="text-center text-gray-700 dark:text-gray-300 my-8">No compressed documents found.</p>
 <% end %>
