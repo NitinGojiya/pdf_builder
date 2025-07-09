@@ -4,6 +4,8 @@ require "caracal"
 require "securerandom"
 require "convert_api"
 require "axlsx"
+require "mini_magick"
+
 
 class ConversionsController < ApplicationController
   def convert_pdf_to_word
@@ -155,6 +157,56 @@ class ConversionsController < ApplicationController
               type: "application/zip",
               disposition: "attachment"
   end
+
+  def convert_pdf_to_jpg
+    uploaded_files = Array.wrap(params[:files])
+    return render json: { error: "No files uploaded." }, status: :unprocessable_entity if uploaded_files.empty?
+
+    temp_dir = Rails.root.join("tmp", "pdf_to_jpg_#{Time.now.to_i}")
+    FileUtils.mkdir_p(temp_dir)
+    image_paths = []
+    document = Current.session.user.documents.create!(
+      title: "PDF To JPG - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    uploaded_files.each_with_index do |uploaded_file, file_index|
+      next unless uploaded_file.content_type == "application/pdf"
+
+      pdf_path = uploaded_file.tempfile.path
+      document.uploads.attach(uploaded_file) # Attach the original PDF to the document in active storage
+      # Use MiniMagick to convert each page to a JPG
+      MiniMagick::Tool::Convert.new do |convert|
+        convert.density(150)
+        convert.quality(90)
+        convert << "#{pdf_path}"
+        convert << "#{temp_dir}/file_#{file_index}_page_%02d.jpg"
+      end
+
+      # Collect generated JPGs
+      Dir.glob("#{temp_dir}/file_#{file_index}_page_*.jpg").each do |jpg_path|
+        image_paths << jpg_path
+      end
+    end
+
+    if image_paths.empty?
+      return render json: { error: "No valid PDF pages converted." }, status: :unprocessable_entity
+    end
+
+    # Create zip file
+    zip_path = Rails.root.join("tmp", "pdf_pages_#{Time.now.to_i}.zip")
+    Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
+      image_paths.each do |img|
+        zipfile.add(File.basename(img), img)
+      end
+    end
+    # Attach the zip file to the document active storage
+    document.file.attach(
+      io: File.open(zip_path),
+      filename: "converted_images.zip",
+      content_type: "application/zip"
+    )
+    send_file zip_path, filename: "converted_images.zip", type: "application/zip"
+  end
+
   private
 
   def convert_pdfs_to_docx(pdf_path, output_path)
