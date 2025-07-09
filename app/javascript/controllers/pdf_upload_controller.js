@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["fileInput", "selectButton", "buttonContainer", "uploadContainer", "pdfmergeContainer", "previewContainer"]
 
   connect() {
-    this.files = [] // Store files in memory
+    this.files = []
   }
 
   select() {
@@ -131,6 +131,7 @@ filepreview() {
     this.previewContainerTarget.appendChild(previewCard);
   });
 }
+
 
  sendrequest() {
   if (this.files.length === 0) {

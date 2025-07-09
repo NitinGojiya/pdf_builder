@@ -66,10 +66,19 @@
     </div>
 
     <!-- Drag and Drop Text -->
-    <p class="text-gray-500 text-sm sm:text-base">
-        or drop PDFs here
-    </p>
+     <p id="controller" hidden><%=stimulus_controller%></p>
+    <div
+    data-controller="drag-drop"
+    data-action="dragover->drag-drop#dragOver dragleave->drag-drop#dragLeave drop->drag-drop#drop"
+    data-drag-drop-target="dropzone"
+    class="mt-4 p-10 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 text-center cursor-pointer hover:border-green-500 transition"
+    >
+    or drop PDFs here
+    </div>
 
     <div >
     </div>
 </div>
+
+
+
