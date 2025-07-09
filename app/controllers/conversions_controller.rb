@@ -3,6 +3,7 @@ require "pdf-reader"
 require "caracal"
 require "securerandom"
 require "convert_api"
+require "axlsx"
 
 class ConversionsController < ApplicationController
   def convert_pdf_to_word
@@ -53,8 +54,6 @@ class ConversionsController < ApplicationController
     File.delete(zip_path) if File.exist?(zip_path)
   end
 
-
-
   def convert_pdf_to_ppt
     uploaded_file = params[:files].first
 
@@ -94,7 +93,68 @@ class ConversionsController < ApplicationController
     render json: { error: "Conversion failed", details: e.message }, status: :internal_server_error
   end
 
+  def convert_pdf_to_excel
+    uploaded_files = Array.wrap(params[:files])
 
+    if uploaded_files.empty?
+      return render json: { error: "No files uploaded." }, status: :unprocessable_entity
+    end
+
+    excel_paths = []
+    document = Current.session.user.documents.create!(
+      title: "PDF To Excel - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    uploaded_files.each_with_index do |uploaded_file, index|
+      next unless uploaded_file.content_type == "application/pdf"
+
+      pdf_path = uploaded_file.tempfile.path
+      xlsx_filename = "converted_#{index + 1}_#{Time.now.to_i}.xlsx"
+      xlsx_path = Rails.root.join("tmp", xlsx_filename)
+      document.uploads.attach(uploaded_file)
+      # Extract text from PDF
+      reader = PDF::Reader.new(pdf_path)
+      all_lines = []
+      reader.pages.each do |page|
+        lines = page.text.lines.map(&:strip).reject(&:empty?)
+        all_lines.concat(lines)
+      end
+
+      # Generate Excel
+      Axlsx::Package.new do |p|
+        p.workbook.add_worksheet(name: "PDF Data") do |sheet|
+          all_lines.each do |line|
+            sheet.add_row line.split(/\s{2,}|\t|  +/)
+          end
+        end
+        p.serialize(xlsx_path)
+      end
+
+      excel_paths << xlsx_path
+    end
+
+    if excel_paths.empty?
+      return render json: { error: "No valid PDF files to process." }, status: :unprocessable_entity
+    end
+
+    # Create zip archive
+    zip_filename = "converted_excels_#{Time.now.to_i}.zip"
+    zip_path = Rails.root.join("tmp", zip_filename)
+
+    Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
+      excel_paths.each do |xlsx_path|
+        zipfile.add(File.basename(xlsx_path), xlsx_path)
+      end
+    end
+    document.file.attach(
+      io: File.open(zip_path),
+      filename: zip_filename,
+      content_type: "application/zip"
+    )
+    send_file zip_path,
+              filename: zip_filename,
+              type: "application/zip",
+              disposition: "attachment"
+  end
   private
 
   def convert_pdfs_to_docx(pdf_path, output_path)

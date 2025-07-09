@@ -76,7 +76,12 @@ gem "docsplit"             # (optional) Word/Docx to PDF
 gem "prawn"             # optional for PDF generation
 gem "rubyzip", "~> 1.3"
 
+# for docx generation
 gem "pdf-reader" # PDF reading
 gem "caracal"    # DOCX generation
 
+# for ppt conversion
 gem "convert_api" # Convert API for ppt conversion
+
+# for excel generation
+gem "axlsx_rails"
