@@ -66,6 +66,7 @@ gem "tailwindcss-ruby", "~> 4.1"
 
 gem "tailwindcss-rails", "~> 4.2"
 
+# for pdf generation and manipulation
 
 gem "combine_pdf"          # Merge PDFs
 gem "mini_magick"          # Image to PDF
@@ -77,3 +78,5 @@ gem "rubyzip", "~> 1.3"
 
 gem "pdf-reader" # PDF reading
 gem "caracal"    # DOCX generation
+
+gem "convert_api" # Convert API for ppt conversion

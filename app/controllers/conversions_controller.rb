@@ -2,6 +2,8 @@ require "zip"
 require "pdf-reader"
 require "caracal"
 require "securerandom"
+require "convert_api"
+
 class ConversionsController < ApplicationController
   def convert_pdf_to_word
     uploaded_files = params[:files]
@@ -51,52 +53,48 @@ class ConversionsController < ApplicationController
     File.delete(zip_path) if File.exist?(zip_path)
   end
 
+
+
   def convert_pdf_to_ppt
-    # uploaded_files = params[:files]
-    # return head :bad_request if uploaded_files.blank?
+  uploaded_file = params[:files].first
 
-    # document = Current.session.user.documents.create!(title: "PDF to PPT - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}")
-
-    # uid = SecureRandom.uuid
-    # pdf_dir = Rails.root.join("tmp", "pdfs", uid)
-    # ppt_dir = Rails.root.join("tmp", "ppts", uid)
-    # zip_path = Rails.root.join("tmp", "converted_ppt_#{uid}.zip")
-
-    # FileUtils.mkdir_p(pdf_dir)
-    # FileUtils.mkdir_p(ppt_dir)
-
-    # uploaded_files.each do |file|
-    #   next unless File.extname(file.original_filename).downcase == ".pdf"
-
-    #   pdf_path = pdf_dir.join(file.original_filename)
-    #   File.open(pdf_path, "wb") { |f| f.write(file.read) }
-
-    #   document.uploads.attach(File.open(pdf_path))
-
-    #   ppt_filename = File.basename(file.original_filename, ".pdf") + ".pptx"
-    #   ppt_output_path = ppt_dir.join(ppt_filename)
-
-    #   convert_pdf_to_pptx(pdf_path.to_s, ppt_output_path.to_s)
-    # end
-
-    # # Create ZIP archive
-    # Zip::File.open(zip_path, Zip::File::CREATE) do |zipfile|
-    #   Dir.glob("#{ppt_dir}/*.pptx").each do |ppt_file|
-    #     zipfile.add(File.basename(ppt_file), ppt_file)
-    #   end
-    # end
-
-    # document.file.attach(io: File.open(zip_path), filename: "converted_presentations.zip", content_type: "application/zip")
-
-    # send_data File.read(zip_path),
-    #           filename: "converted_presentations.zip",
-    #           type: "application/zip",
-    #           disposition: "attachment"
-
-    # ensure
-    #   FileUtils.rm_rf([ pdf_dir, ppt_dir ])
-    #   File.delete(zip_path) if File.exist?(zip_path)
+  unless uploaded_file&.respond_to?(:original_filename)
+    return render json: { error: "No valid file uploaded" }, status: :unprocessable_entity
   end
+
+  document = Current.session.user.documents.create!(
+    title: "PDF To PPT - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}"
+  )
+  document.uploads.attach(uploaded_file)
+
+  # Ensure we can re-read the file
+  uploaded_file.rewind
+
+  temp_path = Rails.root.join("tmp", uploaded_file.original_filename)
+  File.open(temp_path, "wb") { |f| f.write(uploaded_file.read) }
+
+  result = ::ConvertApi.convert("pptx", { File: temp_path.to_s })
+
+  output_file_path = Rails.root.join("tmp", "converted_#{Time.current.to_i}.pptx")
+  result.files.first.save(output_file_path)
+
+  document.file.attach(
+    io: File.open(output_file_path),
+    filename: "converted.pptx",
+    content_type: "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+  )
+
+  send_file output_file_path,
+            type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            filename: "converted.pptx",
+            disposition: "attachment"
+
+rescue => e
+  Rails.logger.error("Conversion error: #{e.message}")
+  render json: { error: "Conversion failed", details: e.message }, status: :internal_server_error
+end
+
+
 
 
   private
@@ -116,15 +114,6 @@ class ConversionsController < ApplicationController
       end
     rescue => e
       Rails.logger.error "Error converting #{pdf_path} to DOCX: #{e.message}"
-    end
-  end
-
-  def convert_pdf_to_pptx(pdf_path, output_path)
-    begin
-      # Use LibreOffice CLI to convert PDF → PPTX
-      system("libreoffice --headless --convert-to pptx --outdir #{Shellwords.escape(File.dirname(output_path))} #{Shellwords.escape(pdf_path)}")
-    rescue => e
-      Rails.logger.error "Error converting #{pdf_path} to PPTX: #{e.message}"
     end
   end
 end
