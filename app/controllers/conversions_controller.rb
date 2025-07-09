@@ -56,45 +56,43 @@ class ConversionsController < ApplicationController
 
 
   def convert_pdf_to_ppt
-  uploaded_file = params[:files].first
+    uploaded_file = params[:files].first
 
-  unless uploaded_file&.respond_to?(:original_filename)
-    return render json: { error: "No valid file uploaded" }, status: :unprocessable_entity
+    unless uploaded_file&.respond_to?(:original_filename)
+      return render json: { error: "No valid file uploaded" }, status: :unprocessable_entity
+    end
+
+    document = Current.session.user.documents.create!(
+      title: "PDF To PPT - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    document.uploads.attach(uploaded_file)
+
+    # Ensure we can re-read the file
+    uploaded_file.rewind
+
+    temp_path = Rails.root.join("tmp", uploaded_file.original_filename)
+    File.open(temp_path, "wb") { |f| f.write(uploaded_file.read) }
+
+    result = ::ConvertApi.convert("pptx", { File: temp_path.to_s })
+
+    output_file_path = Rails.root.join("tmp", "converted_#{Time.current.to_i}.pptx")
+    result.files.first.save(output_file_path)
+
+    document.file.attach(
+      io: File.open(output_file_path),
+      filename: "converted.pptx",
+      content_type: "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    )
+
+    send_file output_file_path,
+              type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+              filename: "converted.pptx",
+              disposition: "attachment"
+
+  rescue => e
+    Rails.logger.error("Conversion error: #{e.message}")
+    render json: { error: "Conversion failed", details: e.message }, status: :internal_server_error
   end
-
-  document = Current.session.user.documents.create!(
-    title: "PDF To PPT - #{Time.current.strftime('%Y-%m-%d %H:%M:%S')}"
-  )
-  document.uploads.attach(uploaded_file)
-
-  # Ensure we can re-read the file
-  uploaded_file.rewind
-
-  temp_path = Rails.root.join("tmp", uploaded_file.original_filename)
-  File.open(temp_path, "wb") { |f| f.write(uploaded_file.read) }
-
-  result = ::ConvertApi.convert("pptx", { File: temp_path.to_s })
-
-  output_file_path = Rails.root.join("tmp", "converted_#{Time.current.to_i}.pptx")
-  result.files.first.save(output_file_path)
-
-  document.file.attach(
-    io: File.open(output_file_path),
-    filename: "converted.pptx",
-    content_type: "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-  )
-
-  send_file output_file_path,
-            type: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            filename: "converted.pptx",
-            disposition: "attachment"
-
-rescue => e
-  Rails.logger.error("Conversion error: #{e.message}")
-  render json: { error: "Conversion failed", details: e.message }, status: :internal_server_error
-end
-
-
 
 
   private
