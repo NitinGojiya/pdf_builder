@@ -12,7 +12,9 @@
           <%=render 'shared/list_navbar'%>
       </ul>
     </div>
-    <%=link_to "PdfBuilder" ,root_path,class:'btn btn-ghost text-xl'%>
+    <%=link_to root_path,class:'font-bold text-xl' do %>
+      <span class="text-3xl uppercase">Pdf</span><span class="text-[#FFB823] font-semibold font-[Silkscreen]">Builder</span>
+    <%end%>
   </div>
   <div class="navbar-end gap-4 ">
     <div class="hidden lg:flex text-2xl">
