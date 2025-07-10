@@ -5,6 +5,7 @@ require "securerandom"
 require "convert_api"
 require "axlsx"
 require "mini_magick"
+require "docsplit"
 
 
 class ConversionsController < ApplicationController
@@ -237,6 +238,50 @@ class ConversionsController < ApplicationController
     )
     send_file output_path, type: "application/pdf", disposition: "attachment"
   end
+
+  def convert_word_to_pdf
+    uploaded_files = Array(params[:files])
+    return render plain: "No files uploaded", status: :bad_request if uploaded_files.empty?
+
+    uploaded_files.each do |uploaded_file|
+      unless uploaded_file.content_type.in?([
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ])
+        next
+      end
+
+      document = Current.session.user.documents.create!(
+        title: "Word To PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+      )
+      document.uploads.attach(uploaded_file)
+
+      input_path = Rails.root.join("tmp", uploaded_file.original_filename)
+      File.open(input_path, "wb") { |f| f.write(uploaded_file.read) }
+
+      begin
+        Docsplit.extract_pdf(input_path.to_s, output: Rails.root.join("tmp"))
+      rescue => e
+        Rails.logger.error("Docsplit error: #{e.message}")
+        next
+      end
+
+      pdf_name = uploaded_file.original_filename.sub(/\.(docx?|DOCX?)$/, ".pdf")
+      pdf_path = Rails.root.join("tmp", pdf_name)
+
+      if File.exist?(pdf_path)
+        document.file.attach(
+          io: File.open(pdf_path),
+          filename: pdf_name,
+          content_type: "application/pdf"
+        )
+        send_file pdf_path, type: "application/pdf", disposition: "attachment" and return
+      end
+    end
+
+    render plain: "PDF conversion failed", status: :unprocessable_entity
+  end
+
 
 
   private
