@@ -10,24 +10,41 @@
 <li>
     <details>
         <summary>convert pdf</summary>
-        <ul class="p-2 w-[300px] bg-[#E1EEBC]">
+        <ul class="p-2 w-[300px] bg-[#E1EEBC] uppercase">
             <li>
-                <%=link_to "pdf to word" ,pdf_word_path %>
+                <%=link_to pdf_word_path do %>
+                    <i class="fas fa-file-word"></i> pdf to word
+                    <% end %>
             </li>
             <li>
-                <%=link_to "pdf to PowerPoint" ,pdf_ppt_path %>
+                <%=link_to pdf_ppt_path do %>
+                    <i class="fa-solid fa-file-powerpoint"></i>pdf to PowerPoint
+                    <% end %>
             </li>
             <li>
-                <%=link_to "pdf to Excel" ,pdf_excel_path %>
+                <%=link_to pdf_excel_path do%>
+                    <i class="fa-solid fa-file-excel"></i> pdf to Excel
+                    <% end %>
             </li>
             <li>
-                <%=link_to "pdf to jpg" ,pdf_jpg_path %>
+                <%=link_to pdf_jpg_path do %>
+                    <i class="fa-solid fa-image"></i>pdf to jpg
+                    <% end %>
             </li>
             <li>
-                <%=link_to "jpg to  pdf" ,jpg_pdf_path %>
+                <%=link_to jpg_pdf_path do %>
+                    <i class="fa-solid fa-file-pdf"></i> jpg to pdf
+                    <% end %>
             </li>
             <li>
-                <%=link_to "Word to  pdf" ,word_pdf_path %>
+                <%=link_to word_pdf_path do %>
+                <i class="fa-solid fa-file-word"></i> Word to  pdf
+                <% end %>
+            </li>
+            <li>
+                <%=link_to ppt_pdf_path do %>
+                <i class="fa-solid fa-file-powerpoint"></i> PowerPoint to pdf
+                <% end %>
             </li>
         </ul>
     </details>
