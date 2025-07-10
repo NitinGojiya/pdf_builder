@@ -27,18 +27,19 @@
   </head>
 
   <body>
-    <main class="min-h-screen flex flex-col justify-between bg-base-100">
+    <main class="min-h-screen flex flex-col  bg-base-100">
       <nav class="sticky top-0 z-50 ">
          <%= render "shared/navbar" %>
       </nav>
       <div class="container mx-auto px-4">
          <%= yield %>
       </div>
-      <footer>
-        <%= render "shared/footer" %>
-      </footer>
+
       <%=render 'shared/loader' %>
     </main>
+     <footer>
+        <%= render "shared/footer" %>
+      </footer>
     <!-- these script for pdf  split into pages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </body>
