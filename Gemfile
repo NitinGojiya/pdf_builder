@@ -84,7 +84,7 @@ gem "caracal"    # DOCX generation
 gem "convert_api" # Convert API for ppt conversion
 
 # for excel generation
-gem "axlsx_rails"
+gem "caxlsx" # "axlsx_rails"
 
 # for excel conversion
-gem "docx_converter"
+# gem "docx_converter"
