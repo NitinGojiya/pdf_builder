@@ -1,3 +1,11 @@
+.nav-remove-btn > li {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font-weight: normal;
+}
+
 
 .input {
   display: flex;
