@@ -9,34 +9,61 @@
       <ul tabindex="0"
         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow capitalize font-bold">
         <!-- mobile view -->
-          <%=render 'shared/list_navbar'%>
+        <%=render 'shared/list_navbar' %>
       </ul>
     </div>
     <%=link_to root_path,class:'font-bold text-xl' do %>
-      <span class="text-3xl uppercase">Pdf</span><span class="text-[#FFB823] font-semibold font-[Silkscreen]">Builder</span>
-    <%end%>
+      <span class="text-3xl uppercase">Pdf</span><span
+        class="text-[#FFB823] font-semibold font-[Silkscreen]">Builder</span>
+      <%end%>
   </div>
   <div class="navbar-end gap-4 ">
     <div class="hidden lg:flex text-2xl">
       <ul class="menu menu-horizontal px-1 capitalize font-bold">
-       <%=render 'shared/list_navbar'%>
+        <%=render 'shared/list_navbar' %>
       </ul>
     </div>
+
     <div class="flex items-center gap-4">
       <% unless authenticated? %>
-        <div>
-          <%=link_to "login" , new_session_path,class:"hover:text-green-500 cursor-pointer"%>
+      <div class="flex">
+         <div>
+          <%=link_to new_session_path do%>
+
+            <div aria-label="User Login Button" tabindex="0" role="button" class="user-profile">
+              <div class="user-profile-inner">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <p>Log In</p>
+              </div>
+            </div>
+            <%end%>
         </div>
-        <div><button class="btn btn-success btn-outline">Signup</button></div>
+        <div>
+          <%=link_to new_session_path ,class:"md:flex hidden" do%>
+
+            <div aria-label="User Login Button" tabindex="0" role="button" class="user-profile">
+              <div class="user-profile-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                </svg>
+                <p>Signup</p>
+              </div>
+            </div>
+            <%end%>
+        </div>
+      </div>
+
+
         <%end%>
 
           <% if authenticated? %>
-          <div>
-            <%= button_to  session_path, method: :delete ,class:"text-[#FFB823] text-2xl cursor-pointer" do %>
-              <i class="fa-solid fa-right-from-bracket"></i>
-            <%end%>
-
-          </div>
+            <div>
+              <%= button_to session_path, method: :delete ,class:"text-[#819067] text-2xl cursor-pointer" do %>
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <%end%>
+            </div>
 
             <div class="drawer drawer-end">
               <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
@@ -44,19 +71,15 @@
                 <!-- Page content here -->
                 <label for="my-drawer-4"> <i class="fa-solid fa-user text-3xl hover:text-[#E1EEBC]"></i></label>
               </div>
-              <%=render 'shared/user_nav'%>
+              <%=render 'shared/user_nav' %>
+            </div>
+
+            <div class="tooltip hover:tooltip-open tooltip-bottom" data-tip="Files">
+              <%=link_to fileview_path do %>
+                <i class="fa-solid fa-cloud-arrow-up text-3xl hover:text-[#E1EEBC]"></i>
+                <%end%>
             </div>
             <%end%>
-
     </div>
-
-      <div  class="tooltip hover:tooltip-open tooltip-bottom" data-tip="Files">
-        <%=link_to fileview_path do %>
-        <i class="fa-solid fa-cloud-arrow-up text-3xl hover:text-[#E1EEBC]"></i>
-        <%end%>
-      </div>
-
-
   </div>
-
 </div>

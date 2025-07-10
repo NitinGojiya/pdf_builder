@@ -13,7 +13,7 @@
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 ">
       <!-- Select PDF Files Button -->
         <button data-<%= stimulus_controller %>-target="selectButton" data-action="click-><%=stimulus_controller%>#select"
-            class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto">
+            class="flex items-center justify-center bg-[#4b5c1e] hover:bg-[#819067] hover:text-black text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto">
             Select PDF files
         </button>
 
@@ -33,14 +33,14 @@
         <div class="flex gap-4">
             <!-- First Circular Icon Button (e.g., Upload) -->
             <button
-                class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white p-3 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 text-3xl">
+                class="flex items-center justify-center bg-[#4b5c1e] hover:bg-[#819067] hover:text-black text-white p-3 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 text-3xl">
                 <!-- Lucide Upload icon SVG -->
                 <i class="fa-brands fa-google-drive"></i>
             </button>
 
             <!-- Second Circular Icon Button (e.g., Download/Merge) -->
             <button
-                class="flex items-center justify-center bg-green-600 hover:bg-green-700 text-white p-3 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 text-3xl">
+                class="flex items-center justify-center bg-[#4b5c1e] hover:bg-[#819067] hover:text-black text-white p-3 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 text-3xl">
 
                 <i class="fa-brands fa-dropbox"></i>
             </button>
@@ -71,7 +71,7 @@
     data-controller="drag-drop"
     data-action="dragover->drag-drop#dragOver dragleave->drag-drop#dragLeave drop->drag-drop#drop"
     data-drag-drop-target="dropzone"
-    class="mt-4 p-10 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 text-center cursor-pointer hover:border-green-500 transition"
+    class="mt-4 p-10 border-2 border-dashed border-gray-300 rounded-xl text-gray-500 text-center cursor-pointer hover:border-[#4b5c1e]  transition"
     >
     or drop PDFs here
     </div>
