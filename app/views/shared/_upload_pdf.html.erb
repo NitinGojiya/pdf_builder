@@ -20,7 +20,7 @@
         <%= form_with do |form| %>
         <%= form.file_field :files,
             class: "hidden",
-            accept: "application/pdf",
+            accept: accept_files_types,
             multiple: multiple_files,
             data: {
             "#{stimulus_controller}-target": "fileInput",
