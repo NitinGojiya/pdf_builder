@@ -283,37 +283,74 @@ class ConversionsController < ApplicationController
   end
 
   def convert_ppt_to_pdf
-  uploaded_file = params[:files]&.first
-  return render plain: "No file uploaded", status: :bad_request unless uploaded_file
+    uploaded_file = params[:files]&.first
+    return render plain: "No file uploaded", status: :bad_request unless uploaded_file
 
-  # Save uploaded file to temp path
-  input_path = Rails.root.join("tmp", uploaded_file.original_filename)
-  File.open(input_path, "wb") { |f| f.write(uploaded_file.read) }
-  # Create a document record
-  document = Current.session.user.documents.create!(
-    title: "PPT To PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
-  )
-  document.uploads.attach(uploaded_file)
-  begin
-    # Call ConvertAPI to convert to PDF
-    result = ConvertApi.convert("pdf", {
-      File: input_path
-    }, from_format: "pptx") # Use 'ppt' if old PowerPoint
-
-    # Save converted file(s) to tmp
-    saved_files = result.save_files(Rails.root.join("tmp"))
-    document.file.attach(
-      io: File.open(saved_files.first),
-      filename: "converted_#{Time.now.to_i}.pdf",
-      content_type: "application/pdf"
+    # Save uploaded file to temp path
+    input_path = Rails.root.join("tmp", uploaded_file.original_filename)
+    File.open(input_path, "wb") { |f| f.write(uploaded_file.read) }
+    # Create a document record
+    document = Current.session.user.documents.create!(
+      title: "PPT To PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
     )
-    # Send the first PDF back
-    send_file saved_files.first, type: "application/pdf", disposition: "attachment"
-  rescue => e
-    Rails.logger.error("ConvertAPI error: #{e.message}")
-    render plain: "Conversion failed", status: :unprocessable_entity
+    document.uploads.attach(uploaded_file)
+    begin
+      # Call ConvertAPI to convert to PDF
+      result = ConvertApi.convert("pdf", {
+        File: input_path
+      }, from_format: "pptx") # Use 'ppt' if old PowerPoint
+
+      # Save converted file(s) to tmp
+      saved_files = result.save_files(Rails.root.join("tmp"))
+      document.file.attach(
+        io: File.open(saved_files.first),
+        filename: "converted_#{Time.now.to_i}.pdf",
+        content_type: "application/pdf"
+      )
+      # Send the first PDF back
+      send_file saved_files.first, type: "application/pdf", disposition: "attachment"
+    rescue => e
+      Rails.logger.error("ConvertAPI error: #{e.message}")
+      render plain: "Conversion failed", status: :unprocessable_entity
+    end
   end
-end
+
+  def convert_excel_to_pdf
+    uploaded_file = params[:files]&.first
+    return render plain: "No file uploaded", status: :bad_request unless uploaded_file
+    document = Current.session.user.documents.create!(
+      title: "Excel To PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    document.uploads.attach(uploaded_file)
+    # Save the uploaded file
+    input_path = Rails.root.join("tmp", uploaded_file.original_filename)
+    File.open(input_path, "wb") { |f| f.write(uploaded_file.read) }
+
+    # Set PDF output path
+    pdf_filename = uploaded_file.original_filename.sub(/\.(xlsx|xls)$/i, ".pdf")
+    output_path = Rails.root.join("tmp", pdf_filename)
+
+    begin
+      # Use LibreOffice via shell to convert Excel → PDF
+      command = "libreoffice --headless --convert-to pdf --outdir #{Rails.root.join("tmp")} #{input_path}"
+      system(command)
+
+      if File.exist?(output_path)
+        document.file.attach(
+          io: File.open(output_path),
+          filename: pdf_filename,
+          content_type: "application/pdf"
+        )
+        send_file output_path, type: "application/pdf", disposition: "attachment"
+      else
+        render plain: "Conversion failed", status: :unprocessable_entity
+      end
+    rescue => e
+      Rails.logger.error("Excel to PDF conversion error: #{e.message}")
+      render plain: "Conversion error", status: :internal_server_error
+    end
+  end
+
 
 
   private
