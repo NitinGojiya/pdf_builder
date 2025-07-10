@@ -32,4 +32,8 @@ Rails.application.routes.draw do
   # pdf to  powerpoint routes
   get "pdf_jpg", controller: "conversions", as: "pdf_jpg"
   post "convert_pdf_to_jpg", to: "conversions#convert_pdf_to_jpg", as: "convert_pdf_to_jpg"
+
+  # pdf to  powerpoint routes
+  get "jpg_pdf", controller: "conversions", as: "jpg_pdf"
+  post "convert_jpg_to_pdf", to: "conversions#convert_jpg_to_pdf", as: "convert_jpg_to_pdf"
 end

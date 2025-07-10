@@ -207,6 +207,38 @@ class ConversionsController < ApplicationController
     send_file zip_path, filename: "converted_images.zip", type: "application/zip"
   end
 
+  def convert_jpg_to_pdf
+    jpgs = Array(params[:files]) # wrap in Array to be safe
+    pdf = CombinePDF.new
+
+    document = Current.session.user.documents.create!(
+      title: "JPG To PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+
+    jpgs.each do |jpg|
+      image = MiniMagick::Image.read(jpg)
+      image.format("pdf")
+      document.uploads.attach(jpg) # Attach the original JPG to the document in active storage
+      temp_path = Rails.root.join("tmp", "#{SecureRandom.uuid}.pdf")
+      image.write(temp_path)
+
+      pdf << CombinePDF.load(temp_path)
+
+      File.delete(temp_path) if File.exist?(temp_path)
+    end
+
+    output_path = Rails.root.join("tmp", "combined_#{SecureRandom.uuid}.pdf")
+    pdf.save(output_path)
+    # Attach the combined PDF to the document in active storage
+    document.file.attach(
+      io: File.open(output_path),
+      filename: "combined_images.pdf",
+      content_type: "application/pdf"
+    )
+    send_file output_path, type: "application/pdf", disposition: "attachment"
+  end
+
+
   private
 
   def convert_pdfs_to_docx(pdf_path, output_path)

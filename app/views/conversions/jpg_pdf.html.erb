@@ -1,0 +1,17 @@
+<div class="flex items-center justify-center w-[100%]" data-controller="jpg-to-pdf">
+  <div style="display: block;" data-jpg-to-pdf-target="uploadContainer">
+    <%#render 'upload_pdf_for_word' %>
+    <%=render  partial: "shared/upload_pdf", locals: {
+       dynamic_text: "Jpg to Pdf Convert",
+       stimulus_controller:"jpg-to-pdf",
+       dynamic_dec:"Convert your JPG files to Pdf  with ease. Simply select your PDF files, and we will handle the conversion for you.",
+       accept_files_types: "image/jpeg, image/*;q=0.7",
+       multiple_files:true }  %>
+  </div>
+  <div style="display: none;" class="min-h-screen flex flex-col" data-jpg-to-pdf-target="pdfmergeContainer">
+    <%=render partial:'shared/preview_for_selected_file',locals: {
+      dynamic_text: "Pdf to Jpg Convert",
+      dynamic_dec:"Convert PDFs to jpg Unlimited, Effortless, and Always Free!",
+      stimulus_controller:"jpg-to-pdf" } %>
+  </div>
+</div>
