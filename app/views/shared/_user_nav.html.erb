@@ -1,0 +1,19 @@
+<div class="drawer-side">
+    <label for="my-drawer-4" aria-label="close sidebar" class="drawer-overlay"></label>
+    <ul class="menu bg-base-200 text-base-content min-h-full w-80 p-4">
+        <li>
+            <div tabindex="0" class="collapse">
+                <div class="collapse-title font-semibold"><i class="fa-solid fa-circle-info"></i> Profile</div>
+                <div class="collapse-content text-sm">
+                    Click the "Sign Up" button in the top right corner and follow the registration process.
+                </div>
+            </div>
+        </li>
+        <li><%=link_to "View Document" , fileview_path%></li>
+    <li>
+        <%= button_to session_path, method: :delete ,class:"text-[#FFB823] text-2xl cursor-pointer" do %>
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <%end%>
+    </li>
+    </ul>
+</div>
