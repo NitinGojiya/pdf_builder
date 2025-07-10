@@ -34,12 +34,12 @@
       <div class="container mx-auto px-4">
          <%= yield %>
       </div>
-
-      <%=render 'shared/loader' %>
     </main>
      <footer>
         <%= render "shared/footer" %>
       </footer>
+       <%=render 'shared/loader' %>
+       <%=render 'shared/scroll_icon'%>
     <!-- these script for pdf  split into pages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </body>
