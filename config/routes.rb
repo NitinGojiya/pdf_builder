@@ -48,4 +48,8 @@ Rails.application.routes.draw do
   # excel  to pdf routes
   get "excel_pdf", controller: "conversions", as: "excel_pdf"
   post "convert_excel_to_pdf", to: "conversions#convert_excel_to_pdf", as: "convert_excel_to_pdf"
+
+  # pdf unlock routes
+  get "pdf_unlock", controller: "pdf_securities", as: "pdf_unlock"
+  post "convert_pdf_unlock", to: "pdf_securities#convert_pdf_unlock", as: "convert_pdf_unlock"
 end

@@ -88,3 +88,6 @@ gem "caxlsx" # "axlsx_rails"
 
 # for excel conversion
 # gem "docx_converter"
+
+# for pdf security
+gem "hexapdf" # PDF security operations
