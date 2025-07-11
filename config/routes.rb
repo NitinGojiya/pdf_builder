@@ -52,4 +52,8 @@ Rails.application.routes.draw do
   # pdf unlock routes
   get "pdf_unlock", controller: "pdf_securities", as: "pdf_unlock"
   post "convert_pdf_unlock", to: "pdf_securities#convert_pdf_unlock", as: "convert_pdf_unlock"
+
+  # pdf lock routes
+  get "pdf_lock", controller: "pdf_securities", as: "pdf_lock"
+  post "convert_pdf_lock", to: "pdf_securities#convert_pdf_lock", as: "convert_pdf_lock"
 end

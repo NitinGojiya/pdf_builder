@@ -1,0 +1,18 @@
+<% content_for :title, "PDF lock- Pdfbuilder" %>
+
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-lock">
+  <div style="display: block;" data-pdf-lock-target="uploadContainer">
+    <%=render  partial: "shared/upload_pdf", locals: {
+      dynamic_text: "Lock PDF",
+      stimulus_controller:"pdf-lock" ,
+      dynamic_dec:"Secure Your PDFs. Control Access. Ensure Privacy.",
+      accept_files_types: "application/pdf",
+      multiple_files:false}  %>
+  </div>
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-lock-target="pdfmergeContainer">
+    <%=render partial:'shared/preview_for_selected_file',locals: {
+      dynamic_text: "pdf lock",
+      dynamic_dec:"PDF lock Unlimited, Effortless, and Always Free!",
+      stimulus_controller:"pdf-lock" } %>
+  </div>
+</div>
