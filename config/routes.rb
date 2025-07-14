@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
 
   get "fileview", to: "documents#fileview", as: "fileview"
+  delete "file_destroy/:id", to: "documents#file_destroy", as: "file_destroy"
   # pdf merge routes
   get "pdf_merge", to: "documents#index", as: "pdf_merge"
   post "combine_pdfs", to: "documents#combine", as: "combine_pdfs"
@@ -56,4 +57,8 @@ Rails.application.routes.draw do
   # pdf lock routes
   get "pdf_lock", controller: "pdf_securities", as: "pdf_lock"
   post "convert_pdf_lock", to: "pdf_securities#convert_pdf_lock", as: "convert_pdf_lock"
+
+  # rotate pdf routes
+  get "pdf_rotate", controller: "pdf_edits", as: "pdf_rotate"
+  post "convert_pdf_rotate", to: "pdf_edits#convert_pdf_rotate", as: "convert_pdf_rotate"
 end
