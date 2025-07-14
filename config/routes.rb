@@ -57,4 +57,8 @@ Rails.application.routes.draw do
   # pdf lock routes
   get "pdf_lock", controller: "pdf_securities", as: "pdf_lock"
   post "convert_pdf_lock", to: "pdf_securities#convert_pdf_lock", as: "convert_pdf_lock"
+
+  # rotate pdf routes
+  get "pdf_rotate", controller: "pdf_edits", as: "pdf_rotate"
+  post "convert_pdf_rotate", to: "pdf_edits#convert_pdf_rotate", as: "convert_pdf_rotate"
 end

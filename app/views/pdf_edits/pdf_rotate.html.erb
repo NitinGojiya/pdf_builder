@@ -1,0 +1,18 @@
+<% content_for :title, "PDF Rotate- Pdfbuilder" %>
+
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-rotate">
+  <div style="display: block;" data-pdf-rotate-target="uploadContainer">
+    <%=render  partial: "shared/upload_pdf", locals: {
+      dynamic_text: "Rotate PDF",
+      stimulus_controller:"pdf-rotate" ,
+      dynamic_dec:"Rotate Your PDFs. Control Access. Ensure Privacy.",
+      accept_files_types: "application/pdf",
+      multiple_files:true}  %>
+  </div>
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-rotate-target="pdfmergeContainer">
+    <%=render partial:'shared/preview_for_selected_file',locals: {
+      dynamic_text: "Rotate PDF",
+      dynamic_dec:"PDF Rotate Unlimited, Effortless, and Always Free!",
+      stimulus_controller:"pdf-rotate" } %>
+  </div>
+</div>
