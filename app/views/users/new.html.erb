@@ -1,0 +1,58 @@
+ <div class="bg-white p-8  max-w-md w-full mx-4 sm:mx-auto">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Create an Account</h2>
+
+        <%=form_with model:@user do |form|%>
+
+            <!-- Email Field -->
+            <div class="mb-5">
+                <label for="email" class="block text-gray-700 text-sm font-medium mb-2">Email Address</label>
+                       <%=form.email_field :email_address ,placeholder:"Enter your email" ,class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4b5c1e] focus:border-transparent transition duration-200 ease-in-out",
+                        required:true
+                       %>
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-5">
+                <label for="password" class="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                        <%=form.password_field :password ,placeholder:"Enter your password" ,class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4b5c1e] focus:border-transparent transition duration-200 ease-in-out",
+                        required:true
+                       %>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="mb-6">
+                <label for="confirm-password" class="block text-gray-700 text-sm font-medium mb-2">Confirm Password</label>
+          <%=form.password_field :password_confirmation ,placeholder:"Confirm password" ,class:"w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4b5c1e] focus:border-transparent transition duration-200 ease-in-out",
+                        required:true
+                       %>
+            </div>
+
+            <!-- Signup Button -->
+
+            <%=form.submit "Signup",class:"w-full bg-[#4b5c1e] text-white py-3 rounded-md font-semibold hover:bg-[#8b9c5c] focus:outline-none focus:ring-2 focus:ring-[#4b5c1e] focus:ring-offset-2 transition duration-200 ease-in-out shadow-md"%>
+                <% if @user.errors.any? %>
+                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+                    <ul class="list-decimal list-inside space-y-1">
+                    <% @user.errors.full_messages.each_with_index do |message, index| %>
+                        <li><%= message %></li>
+                    <% end %>
+                    </ul>
+                </div>
+                <% end %>
+
+
+         <%end%>
+
+         <!-- Google -->
+            <button class="w-full py-3 btn bg-white text-black border-[#e5e5e5] mt-6">
+            <svg aria-label="Google logo" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><g><path d="m0 0H512V512H0" fill="#fff"></path><path fill="#34a853" d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"></path><path fill="#4285f4" d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"></path><path fill="#fbbc02" d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"></path><path fill="#ea4335" d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"></path></g></svg>
+                Signup with Google
+            </button>
+        <p class="text-center text-gray-600 text-sm mt-6">
+            Already have an account?
+            <%=link_to "Log In",new_session_path,class:"text-[#4b5c1e] hover:underline font-medium" %>
+        </p>
+    </div>
+
+
+

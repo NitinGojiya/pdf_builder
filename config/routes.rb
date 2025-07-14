@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resource :session
   resources :passwords, param: :token
+  resources :users
 
   get "fileview", to: "documents#fileview", as: "fileview"
   delete "file_destroy/:id", to: "documents#file_destroy", as: "file_destroy"

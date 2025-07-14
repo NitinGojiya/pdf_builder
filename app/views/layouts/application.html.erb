@@ -27,6 +27,8 @@
   </head>
 
   <body>
+    <%=render 'shared/alert'  if flash[:alert] %>
+    <%=render 'shared/notice'  if flash[:notice] %>
     <main class="min-h-screen flex flex-col  bg-base-100">
       <nav class="sticky top-0 z-50 ">
          <%= render "shared/navbar" %>
