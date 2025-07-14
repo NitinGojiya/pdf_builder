@@ -9,6 +9,15 @@ class DocumentsController < ApplicationController
     @documents = Current.session.user.documents.with_attached_uploads.with_attached_file.order(created_at: :desc)
   end
 
+  def file_destroy
+    document = Document.find(params[:id])
+    if document.destroy
+      redirect_to fileview_path, notice: "Document deleted successfully."
+    else
+      redirect_to fileview_path, alert: "Failed to delete document."
+    end
+  end
+
 
   def combine
     uploaded_files = params[:files] # => array of ActionDispatch::Http::UploadedFile

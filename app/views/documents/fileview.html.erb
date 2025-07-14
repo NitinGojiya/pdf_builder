@@ -18,7 +18,8 @@
         <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Created At</th>
         <th class="py-3 px-4 uppercase font-semibold text-sm text-left">Files</th>
         <th class="py-3 px-4 uppercase font-semibold text-sm text-left">PDF / ZIP</th>
-        <th class="py-3 px-4 uppercase font-semibold text-sm text-left rounded-tr-lg">View</th>
+        <th class="py-3 px-4 uppercase font-semibold text-sm text-left">View</th>
+        <th class="py-3 px-4 uppercase font-semibold text-sm text-left rounded-tr-lg">Delete</th>
       </tr>
     </thead>
     <tbody class="text-gray-700 dark:text-gray-300">
@@ -51,6 +52,14 @@
               <% end %>
             <% else %>
               <em class="text-gray-500 dark:text-gray-400">No file</em>
+            <% end %>
+          </td>
+
+          <td class="py-3 px-4">
+            <% if document.file.attached? %>
+            <%= button_to  file_destroy_path(document), method: :delete,class:"btn bg-red-500 hover:bg-red-300 rounded-full" do %>
+              <i class="fa-solid fa-trash"></i>
+            <%end%>
             <% end %>
           </td>
         </tr>
