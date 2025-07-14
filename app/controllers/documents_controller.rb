@@ -5,16 +5,16 @@ class DocumentsController < ApplicationController
   require "stringio"
 
 
-  def fileview
+  def document_preview
     @documents = Current.session.user.documents.with_attached_uploads.with_attached_file.order(created_at: :desc)
   end
 
   def file_destroy
     document = Document.find(params[:id])
     if document.destroy
-      redirect_to fileview_path, notice: "Document deleted successfully."
+      redirect_to document_preview_path, notice: "Document deleted successfully."
     else
-      redirect_to fileview_path, alert: "Failed to delete document."
+      redirect_to document_preview_path, alert: "Failed to delete document."
     end
   end
 

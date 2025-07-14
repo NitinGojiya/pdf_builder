@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resources :users
 
-  get "fileview", to: "documents#fileview", as: "fileview"
+  get "document_preview", to: "documents#document_preview", as: "document_preview"
   delete "file_destroy/:id", to: "documents#file_destroy", as: "file_destroy"
   # pdf merge routes
   get "pdf_merge", to: "documents#index", as: "pdf_merge"
