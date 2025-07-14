@@ -7,8 +7,8 @@
 <li class="hover:bg-[#4b5c1e] hover:text-white">
     <%=link_to "Split Pdf" ,pdf_split_path%>
 </li>
-<li class="hover:bg-[#4b5c1e] hover:text-white">
-    <details>
+<li class="hover:bg-[#4b5c1e] hover:text-white" data-controller="dropdown">
+    <details data-dropdown-target="details">
         <summary>convert pdf</summary>
         <ul class="p-2 w-[300px] bg-[#E1EEBC]  text-black uppercase">
             <li>
@@ -54,28 +54,25 @@
         </ul>
     </details>
 </li>
-<li class="hover:bg-[#4b5c1e] hover:text-white">
-    <details>
-        <summary>More pdf tools</summary>
-        <ul class="p-2 bg-[#E1EEBC] text-black">
-            <li>
-                <%=link_to pdf_unlock_path do %>
-                    <i class="fa-solid fa-unlock"></i> Unlock PDF
-                    <% end %>
-            </li>
-
-            <li>
-                <%=link_to pdf_lock_path do %>
-                    <i class="fa-solid fa-lock"></i> Lock PDF
-                    <% end %>
-            </li>
-
-            <li>
-                <%=link_to pdf_rotate_path do %>
-                    <i class="fa-solid fa-rotate"></i> Rotate PDF
-                    <% end %>
-            </li>
-
-        </ul>
-    </details>
+<li data-controller="dropdown" class="hover:bg-[#4b5c1e] hover:text-white relative">
+  <details data-dropdown-target="details">
+    <summary>More PDF tools</summary>
+    <ul class="p-2 bg-[#E1EEBC] text-black absolute z-10">
+      <li>
+        <%= link_to pdf_unlock_path do %>
+          <i class="fa-solid fa-unlock"></i> Unlock PDF
+        <% end %>
+      </li>
+      <li>
+        <%= link_to pdf_lock_path do %>
+          <i class="fa-solid fa-lock"></i> Lock PDF
+        <% end %>
+      </li>
+      <li>
+        <%= link_to pdf_rotate_path do %>
+          <i class="fa-solid fa-rotate"></i> Rotate PDF
+        <% end %>
+      </li>
+    </ul>
+  </details>
 </li>
