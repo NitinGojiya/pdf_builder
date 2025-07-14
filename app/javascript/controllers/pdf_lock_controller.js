@@ -61,11 +61,13 @@ export default class extends Controller {
       const blobURL = URL.createObjectURL(file);
 
       const previewCard = document.createElement('div');
-      previewCard.className = "relative flex flex-col items-center justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm cursor-grab mb-2";
+      previewCard.className = "relative flex flex-col items-center  justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm cursor-grab mb-2";
       previewCard.draggable = true;
       previewCard.dataset.index = index;
 
       previewCard.innerHTML = `
+      <div>
+
       <!-- Number Badge -->
       <div class="absolute top-1 right-1 bg-blue-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center font-semibold ring-2 ring-white">
         ${index + 1}
@@ -73,7 +75,7 @@ export default class extends Controller {
 
       <!-- Thumbnail -->
       <div class="preview-thumbnail w-full p-5 h-40 bg-gray-200 rounded-md mb-3 flex items-center justify-center text-gray-500 overflow-hidden">
-        <span class="text-sm text-gray-500">Pdf</span>
+        <embed src="${blobURL}" type="application/pdf" width="300px" height="500px">
       </div>
 
       <!-- Filename -->
@@ -83,12 +85,10 @@ export default class extends Controller {
       <button class="delete-btn absolute top-1 left-1 text-red-500 text-2xl font-bold hover:text-red-700" title="Delete">
         <i class="fa-solid fa-trash"></i>
       </button>
+      </div>
     `;
 
-      // Click to preview PDF
-      // previewCard.querySelector('.preview-thumbnail').addEventListener('click', function () {
-      //   this.innerHTML = `<iframe src="${blobURL}" class="w-full h-full"></iframe>`;
-      // });
+
 
       // Delete handler
       previewCard.querySelector('.delete-btn').addEventListener('click', (e) => {

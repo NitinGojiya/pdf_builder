@@ -72,7 +72,7 @@ filepreview() {
 
       <!-- Thumbnail -->
       <div class="preview-thumbnail w-full p-5 h-40 bg-gray-200 rounded-md mb-3 flex items-center justify-center text-gray-500 overflow-hidden">
-        <span class="text-sm text-gray-500">Doc File</span>
+        <span class="text-sm text-gray-500">Your Excel File</span>
       </div>
 
       <!-- Filename -->
@@ -84,10 +84,7 @@ filepreview() {
       </button>
     `;
 
-    // // Click to preview PDF
-    // previewCard.querySelector('.preview-thumbnail').addEventListener('click', function () {
-    //   this.innerHTML = `<iframe src="${blobURL}" class="w-full h-full"></iframe>`;
-    // });
+
 
     // Delete handler
     previewCard.querySelector('.delete-btn').addEventListener('click', (e) => {

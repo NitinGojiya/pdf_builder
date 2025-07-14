@@ -71,7 +71,7 @@ export default class extends Controller {
 
       <!-- Thumbnail -->
       <div class="preview-thumbnail w-full p-5 h-40 bg-gray-200 rounded-md mb-3 flex items-center justify-center text-gray-500 overflow-hidden">
-        <span class="text-sm text-gray-500">Click to preview PDF</span>
+        <iframe src="${blobURL}" class="w-full h-full"></iframe>
       </div>
 
       <!-- Filename -->
@@ -82,11 +82,6 @@ export default class extends Controller {
         <i class="fa-solid fa-trash"></i>
       </button>
     `;
-
-    // Click to preview PDF
-    previewCard.querySelector('.preview-thumbnail').addEventListener('click', function () {
-      this.innerHTML = `<iframe src="${blobURL}" class="w-full h-full"></iframe>`;
-    });
 
     // Delete handler
     previewCard.querySelector('.delete-btn').addEventListener('click', (e) => {

@@ -86,7 +86,7 @@ filepreview() {
 
     // Click to preview PDF
     previewCard.querySelector('.preview-thumbnail').addEventListener('click', function () {
-      this.innerHTML = `<iframe src="${blobURL}" class="w-full h-full"></iframe>`;
+      this.innerHTML = `<img src="${blobURL}" class="w-full h-full" ></img>`;
     });
 
     // Delete handler
