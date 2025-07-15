@@ -1,21 +1,24 @@
 <% content_for :title, "Merge - Pdfbuilder" %>
 
 
-<div class="flex items-center justify-center w-[100%]" data-controller="pdf-upload">
-  <div style="display: block;" data-pdf-upload-target="uploadContainer">
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-common">
+  <div style="display: block;" data-pdf-common-target="uploadContainer">
     <%=render  partial: "shared/upload_pdf", locals: {
       dynamic_text: "Merge pdf",
       accept_files_types: "application/pdf",
-      stimulus_controller:"pdf-upload",
+      stimulus_controller:"pdf-common",
+      send_controller:"pdf-upload",
       dynamic_dec:"Combine PDFs in the order you want with the easiest PDF merger available.",
       multiple_files:true
     }
       %>
   </div>
-  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-upload-target="pdfmergeContainer">
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-common-target="pdfmergeContainer">
     <%=render partial:'shared/preview_for_selected_file',locals: {
       dynamic_text: "Merge pdf",
       dynamic_dec:"Merge Pdf Unlimited, Effortless, and Always Free!",
-      stimulus_controller:"pdf-upload" } %>
+      stimulus_controller:"pdf-common",
+      send_controller:"pdf-upload"
+    } %>
   </div>
 </div>
