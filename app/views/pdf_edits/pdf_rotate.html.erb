@@ -5,6 +5,7 @@
     <%=render  partial: "shared/upload_pdf", locals: {
       dynamic_text: "Rotate PDF",
       stimulus_controller:"pdf-rotate" ,
+      send_controller:"pdf-rotate",
       dynamic_dec:"Rotate Your PDFs. Control Access. Ensure Privacy.",
       accept_files_types: "application/pdf",
       multiple_files:true}  %>
@@ -13,6 +14,7 @@
     <%=render partial:'shared/preview_for_selected_file',locals: {
       dynamic_text: "Rotate PDF",
       dynamic_dec:"PDF Rotate Unlimited, Effortless, and Always Free!",
+      send_controller:"pdf-rotate",
       stimulus_controller:"pdf-rotate" } %>
   </div>
 </div>
