@@ -1,19 +1,21 @@
 <% content_for :title, "PDF To PPT - Pdfbuilder" %>
 
-<div class="flex items-center justify-center w-[100%]" data-controller="pdf-to-ppt">
-  <div style="display: block;" data-pdf-to-ppt-target="uploadContainer">
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-common">
+  <div style="display: block;" data-pdf-common-target="uploadContainer">
     <%#render 'upload_pdf_for_word' %>
     <%=render  partial: "shared/upload_pdf", locals: {
        dynamic_text: "pdf to power point convert",
-       stimulus_controller:"pdf-to-ppt",
+       stimulus_controller:"pdf-common",
+       send_controller:"pdf-to-ppt",
        dynamic_dec:"Convert your PDF files to power point pdf documents with ease. Simply select your PDF files, and we will handle the conversion for you.",
        accept_files_types: "application/pdf",
        multiple_files:false }  %>
   </div>
-  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-to-ppt-target="pdfmergeContainer">
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-common-target="pdfmergeContainer">
     <%=render partial:'shared/preview_for_selected_file',locals: {
       dynamic_text: "power point",
       dynamic_dec:"Convert PDFs to power point Unlimited, Effortless, and Always Free!",
-      stimulus_controller:"pdf-to-ppt" } %>
+      send_controller:"pdf-to-ppt",
+      stimulus_controller:"pdf-common" } %>
   </div>
 </div>
