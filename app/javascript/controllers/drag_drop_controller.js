@@ -21,7 +21,7 @@ export default class extends Controller {
     const files = Array.from(event.dataTransfer.files);
     const dataTransfer = new DataTransfer();
     files.forEach(file => dataTransfer.items.add(file));
-    const controller_name = document.querySelector("#controller").innerHTML; // e.g., "pdf-upload"
+    const controller_name = document.querySelector("#controller1").innerHTML; // e.g., "pdf-upload"
 
     const targetAttr = `data-${controller_name}-target`;
 
