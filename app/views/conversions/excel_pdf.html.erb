@@ -1,20 +1,22 @@
 
 <% content_for :title, "Excel To Pdf - Pdfbuilder" %>
 
-<div class="flex items-center justify-center w-[100%]" data-controller="excel-to-pdf">
-  <div style="display: block;" data-excel-to-pdf-target="uploadContainer">
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-common">
+  <div style="display: block;" data-pdf-common-target="uploadContainer">
     <%#render 'upload_pdf_for_word' %>
     <%=render  partial: "shared/upload_pdf", locals: {
       dynamic_text: "excel to pdf convert",
-      stimulus_controller:"excel-to-pdf" ,
+      stimulus_controller:"pdf-common" ,
+      send_controller:"excel-to-pdf",
       dynamic_dec:"Convert your excel files to  pdf documents with ease. Simply select your PDF files, and we will handle the conversion for you.",
       accept_files_types: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel;q=0.9",
       multiple_files:false}  %>
   </div>
-  <div style="display: none;" class="min-h-screen flex flex-col" data-excel-to-pdf-target="pdfmergeContainer">
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-common-target="pdfmergeContainer">
     <%=render partial:'shared/preview_for_selected_file',locals: {
       dynamic_text: "Excel to pdf convert",
       dynamic_dec:"Convert Excel to pdf Unlimited, Effortless, and Always Free!",
-      stimulus_controller:"excel-to-pdf" } %>
+      send_controller:"excel-to-pdf",
+      stimulus_controller:"pdf-common" } %>
   </div>
 </div>
