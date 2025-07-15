@@ -46,10 +46,16 @@
 
             <!-- Merge PDF Button -->
             <div class="p-6 border-t border-gray-200 sticky bottom-10 right-0">
-                <div>
-                    <input type="text" id="pdfsecuritypassword" name="password" id="password" placeholder="Enter Password" class="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-[#4b5c1e] focus:border-transparent hidden">
-                </div>
 
+                <% if local_assigns[:password_required] %>
+                    <div>
+                        <input type="text"
+                            id="pdfsecuritypassword"
+                            name="password"
+                            placeholder="Enter Password"
+                            class="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-[#4b5c1e] focus:border-transparent">
+                    </div>
+                    <% end %>
 
 
                 <div data-controller="<%=send_controller%>">

@@ -1,18 +1,21 @@
 <% content_for :title, "PDF Unlock- Pdfbuilder" %>
 
-<div class="flex items-center justify-center w-[100%]" data-controller="pdf-unlock">
-  <div style="display: block;" data-pdf-unlock-target="uploadContainer">
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-common">
+  <div style="display: block;" data-pdf-common-target="uploadContainer">
     <%=render  partial: "shared/upload_pdf", locals: {
       dynamic_text: "unlock PDF",
-      stimulus_controller:"pdf-unlock" ,
+      stimulus_controller:"pdf-common" ,
+      send_controller:"pdf-unlock",
       dynamic_dec:"Break free from PDF locks—access, modify, and share your files effortlessly.",
       accept_files_types: "application/pdf",
       multiple_files:false}  %>
   </div>
-  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-unlock-target="pdfmergeContainer">
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-common-target="pdfmergeContainer">
     <%=render partial:'shared/preview_for_selected_file',locals: {
       dynamic_text: "unlock",
       dynamic_dec:"PDF unlock Unlimited, Effortless, and Always Free!",
-      stimulus_controller:"pdf-unlock" } %>
+      password_required: true,
+      send_controller:"pdf-unlock",
+      stimulus_controller:"pdf-common" } %>
   </div>
 </div>
