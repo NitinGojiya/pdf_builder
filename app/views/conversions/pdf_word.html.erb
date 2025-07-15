@@ -1,19 +1,20 @@
 <% content_for :title, "PDF To Word - Pdfbuilder" %>
 
-<div class="flex items-center justify-center w-[100%]" data-controller="pdf-to-word">
-  <div style="display: block;" data-pdf-to-word-target="uploadContainer">
-    <%#render 'upload_pdf_for_word' %>
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-common">
+  <div style="display: block;" data-pdf-common-target="uploadContainer">
     <%=render  partial: "shared/upload_pdf", locals: {
       dynamic_text: "pdf to word convert",
-      stimulus_controller:"pdf-to-word" ,
+      stimulus_controller:"pdf-common" ,
+      send_controller:"pdf-to-word",
       dynamic_dec:"Convert your PDF files to word pdf documents with ease. Simply select your PDF files, and we will handle the conversion for you.",
       accept_files_types: "application/pdf",
       multiple_files:true}  %>
   </div>
-  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-to-word-target="pdfmergeContainer">
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-common-target="pdfmergeContainer">
     <%=render partial:'shared/preview_for_selected_file',locals: {
       dynamic_text: "word",
       dynamic_dec:"Convert PDFs to Word Unlimited, Effortless, and Always Free!",
-      stimulus_controller:"pdf-to-word" } %>
+      send_controller:"pdf-to-word",
+      stimulus_controller:"pdf-common" } %>
   </div>
 </div>

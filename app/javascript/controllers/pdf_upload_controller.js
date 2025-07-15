@@ -11,7 +11,6 @@ export default class extends Controller {
   }
 
 
-
   sendrequest() {
     // console.log("sendrequest: controller ID", this.element, this.files);
     this.files = window._pdfUploadFiles || [];
