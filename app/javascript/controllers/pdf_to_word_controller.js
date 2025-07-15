@@ -2,7 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="pdf-to-word"
 export default class extends Controller {
-  static targets = ["fileInput", "selectButton", "buttonContainer", "uploadContainer", "pdfmergeContainer", "previewContainer"]
 
   connect() {
     this.files = [] // Store files in memory

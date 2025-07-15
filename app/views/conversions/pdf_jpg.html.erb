@@ -1,19 +1,21 @@
 <% content_for :title, "PDF To JPG - Pdfbuilder" %>
 
-<div class="flex items-center justify-center w-[100%]" data-controller="pdf-to-jpg">
-  <div style="display: block;" data-pdf-to-jpg-target="uploadContainer">
+<div class="flex items-center justify-center w-[100%]" data-controller="pdf-common">
+  <div style="display: block;" data-pdf-common-target="uploadContainer">
     <%#render 'upload_pdf_for_word' %>
     <%=render  partial: "shared/upload_pdf", locals: {
        dynamic_text: "Pdf to Jpg Convert",
-       stimulus_controller:"pdf-to-jpg",
+       stimulus_controller:"pdf-common",
+       send_controller:"pdf-to-jpg",
        dynamic_dec:"Convert your PDF files to jpg  with ease. Simply select your PDF files, and we will handle the conversion for you.",
        accept_files_types: "application/pdf",
        multiple_files:true }  %>
   </div>
-  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-to-jpg-target="pdfmergeContainer">
+  <div style="display: none;" class="min-h-screen flex flex-col" data-pdf-common-target="pdfmergeContainer">
     <%=render partial:'shared/preview_for_selected_file',locals: {
       dynamic_text: "Pdf to Jpg Convert",
       dynamic_dec:"Convert PDFs to jpg Unlimited, Effortless, and Always Free!",
-      stimulus_controller:"pdf-to-jpg" } %>
+      send_controller:"pdf-to-jpg",
+      stimulus_controller:"pdf-common" } %>
   </div>
 </div>
