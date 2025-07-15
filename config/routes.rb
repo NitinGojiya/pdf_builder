@@ -62,4 +62,8 @@ Rails.application.routes.draw do
   # rotate pdf routes
   get "pdf_rotate", controller: "pdf_edits", as: "pdf_rotate"
   post "convert_pdf_rotate", to: "pdf_edits#convert_pdf_rotate", as: "convert_pdf_rotate"
+
+  #  pdf edit routes
+  get "pdf_edit", controller: "pdf_edits", as: "pdf_edit"
+  post "convert_pdf_edit", to: "pdf_edits#convert_pdf_edit", as: "convert_pdf_edit"
 end
