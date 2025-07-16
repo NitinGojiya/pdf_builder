@@ -51,4 +51,28 @@ class PdfEditsController < ApplicationController
         )
     send_file zip_path, filename: "rotated_pdfs.zip", type: "application/zip", disposition: "attachment"
   end
+
+
+  def convert_pdf_edit
+    file = params[:file]
+
+    unless file
+      render json: { error: "No file uploaded" }, status: :bad_request and return
+    end
+
+    document = Current.session.user.documents.create!(
+      title: "Edited PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+
+    document.file.attach(
+      io: file.tempfile,
+      filename: "edited_pdf.pdf",
+      content_type: file.content_type || "application/pdf"
+    )
+
+    send_data document.file.download,
+              filename: document.file.filename.to_s,
+              type: document.file.content_type,
+              disposition: "inline"
+  end
 end
