@@ -1,48 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-/**
- * Controller for cropping PDF pages in the browser.
- * Allows users to select a PDF, visually crop areas, and download/upload the cropped result.
- * Integrates with PDF.js for rendering and PDFLib for PDF manipulation.
- *
- * @class PdfCropController
- * @extends Controller
- *
- * @property {Array<File>} files - List of selected PDF files.
- * @property {Array<Object>} edits - List of crop edits applied to pages.
- * @property {Map<string, ImageData>} currentCanvasStates - Stores original canvas image data by canvas ID.
- * @property {number} currentViewportScale - Current scale used for rendering PDF pages.
- * @property {number} cropStartX - X coordinate where crop starts.
- * @property {number} cropStartY - Y coordinate where crop starts.
- * @property {number} cropEndX - X coordinate where crop ends.
- * @property {number} cropEndY - Y coordinate where crop ends.
- * @property {boolean} isCropping - Indicates if cropping is in progress.
- * @property {HTMLElement|null} cropRect - DOM element representing the crop selection rectangle.
- * @property {ImageData|null} selectedImageData - Image data of the selected crop area.
- * @property {boolean} isMovingSelection - Indicates if crop selection is being moved.
- * @property {string} editMode - Current edit mode ("crop").
- * @property {PDFDocumentProxy} pdfDoc - Loaded PDF document.
- * @property {number} totalPages - Number of pages in the loaded PDF.
- *
- * @method connect Initializes controller state.
- * @method select Triggers file input for PDF selection.
- * @method filesSelected Handles file input change event, loads selected PDF.
- * @method updateButtonText Updates UI button text based on selected files.
- * @method next Advances UI to post-upload state.
- * @method loadPDF Loads and renders a PDF file using PDF.js.
- * @method renderPage Renders a single PDF page to canvas.
- * @method setStatus Updates status message in the UI.
- * @method setupPageInteractions Sets up crop interactions for a canvas.
- * @method startCrop Begins crop selection on mouse down.
- * @method updateCrop Updates crop rectangle on mouse move.
- * @method finishCrop Finalizes crop selection on mouse up.
- * @method removeSelection Removes current crop selection.
- * @method enableDragMove Enables drag and double-click interactions for crop selection.
- * @method downloadEditedPDF Initiates download/upload of cropped PDF.
- * @method sendCroppedPDFToRails Sends cropped PDF to backend and handles download.
- */
 export default class extends Controller {
-
   static targets = [
     "fullContainer",
     "status",
@@ -69,6 +27,15 @@ export default class extends Controller {
     this.selectedImageData = null
     this.isMovingSelection = false
     this.editMode = "crop"
+  }
+
+  // Unified coordinate handler for mouse/touch events
+  getEventCoordinates(e) {
+    if (e.type.includes('touch')) {
+      const touch = e.touches[0] || e.changedTouches[0]
+      return { clientX: touch.clientX, clientY: touch.clientY }
+    }
+    return { clientX: e.clientX, clientY: e.clientY }
   }
 
   select() {
@@ -155,6 +122,7 @@ export default class extends Controller {
   }
 
   setupPageInteractions(canvas) {
+    // Mouse events
     canvas.addEventListener("mousedown", e => {
       if (this.editMode === "crop") this.startCrop(e, canvas)
     })
@@ -166,6 +134,21 @@ export default class extends Controller {
     canvas.addEventListener("mouseup", e => {
       if (this.editMode === "crop" && this.isCropping) this.finishCrop(e, canvas)
     })
+
+    // Touch events
+    canvas.addEventListener("touchstart", e => {
+      e.preventDefault()
+      if (this.editMode === "crop") this.startCrop(e, canvas)
+    }, { passive: false })
+
+    canvas.addEventListener("touchmove", e => {
+      e.preventDefault()
+      if (this.editMode === "crop" && this.isCropping) this.updateCrop(e, canvas)
+    }, { passive: false })
+
+    canvas.addEventListener("touchend", e => {
+      if (this.editMode === "crop" && this.isCropping) this.finishCrop(e, canvas)
+    })
   }
 
   startCrop(e, canvas) {
@@ -174,9 +157,10 @@ export default class extends Controller {
       return
     }
 
+    const coords = this.getEventCoordinates(e)
     const parent = canvas.parentNode.getBoundingClientRect()
-    this.cropStartX = e.clientX - parent.left
-    this.cropStartY = e.clientY - parent.top
+    this.cropStartX = coords.clientX - parent.left
+    this.cropStartY = coords.clientY - parent.top
     this.isCropping = true
 
     this.cropRect = document.createElement("div")
@@ -188,7 +172,8 @@ export default class extends Controller {
       top: `${this.cropStartY}px`,
       width: "0px",
       height: "0px",
-      pointerEvents: "none"
+      pointerEvents: "none",
+      touchAction: "none"
     })
 
     // Add remove button (×)
@@ -202,9 +187,10 @@ export default class extends Controller {
   }
 
   updateCrop(e, canvas) {
+    const coords = this.getEventCoordinates(e)
     const parent = canvas.parentNode.getBoundingClientRect()
-    this.cropEndX = e.clientX - parent.left
-    this.cropEndY = e.clientY - parent.top
+    this.cropEndX = coords.clientX - parent.left
+    this.cropEndY = coords.clientY - parent.top
 
     const x = Math.min(this.cropStartX, this.cropEndX)
     const y = Math.min(this.cropStartY, this.cropEndY)
@@ -254,7 +240,7 @@ export default class extends Controller {
     this.cropRect.style.cursor = "move"
 
     this.enableDragMove(canvas, canvas.id, cropX, cropY, cropWidth, cropHeight)
-    this.setStatus("Area kept sharp. Drag or double-click to apply.", "text-blue-500")
+    this.setStatus("Area kept sharp. Drag or double-tap to apply.", "text-blue-500")
   }
 
   removeSelection() {
@@ -270,70 +256,104 @@ export default class extends Controller {
     const selection = this.cropRect
     let offsetX = 0, offsetY = 0
 
-    const onMouseDown = (e) => {
+    const onDragStart = (e) => {
       e.preventDefault()
       this.isMovingSelection = true
+      const coords = this.getEventCoordinates(e)
       const rect = selection.getBoundingClientRect()
-      offsetX = e.clientX - rect.left
-      offsetY = e.clientY - rect.top
+      offsetX = coords.clientX - rect.left
+      offsetY = coords.clientY - rect.top
     }
 
-    const onMouseMove = (e) => {
+    const onDragMove = (e) => {
       if (!this.isMovingSelection) return
+      const coords = this.getEventCoordinates(e)
       const parentRect = canvas.parentNode.getBoundingClientRect()
-      const newX = e.clientX - parentRect.left - offsetX
-      const newY = e.clientY - parentRect.top - offsetY
+      let newX = coords.clientX - parentRect.left - offsetX
+      let newY = coords.clientY - parentRect.top - offsetY
+
+      // Boundary constraints
+      const maxX = canvas.width - parseInt(selection.style.width)
+      const maxY = canvas.height - parseInt(selection.style.height)
+
+      newX = Math.max(0, Math.min(newX, maxX))
+      newY = Math.max(0, Math.min(newY, maxY))
+
       selection.style.left = `${newX}px`
       selection.style.top = `${newY}px`
     }
 
-    const onMouseUp = () => {
+    const onDragEnd = () => {
       this.isMovingSelection = false
     }
 
     const onDoubleClick = () => {
-      const finalX = parseInt(selection.style.left)
-      const finalY = parseInt(selection.style.top)
-      const finalWidth = parseInt(selection.style.width)
-      const finalHeight = parseInt(selection.style.height)
-
-      const tempCanvas = document.createElement("canvas")
-      tempCanvas.width = finalWidth
-      tempCanvas.height = finalHeight
-      const tempCtx = tempCanvas.getContext("2d")
-      tempCtx.putImageData(this.selectedImageData, 0, 0)
-      const resizedImage = tempCtx.getImageData(0, 0, finalWidth, finalHeight)
-
-      const ctx = canvas.getContext("2d")
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.putImageData(resizedImage, finalX, finalY)
-
-      const pageNum = parseInt(canvas.id.split("-")[1])
-      this.edits = this.edits.filter(e => e.page !== pageNum)
-      this.edits.push({
-        page: pageNum,
-        x: finalX,
-        y: finalY,
-        width: finalWidth,
-        height: finalHeight,
-        imageData: resizedImage
-      })
-
-      selection.remove()
-      this.cropRect = null
-      this.setStatus("Selection applied", "text-green-500")
+      this.applySelection(canvas, selection)
     }
 
-    selection.addEventListener("mousedown", onMouseDown)
-    window.addEventListener("mousemove", onMouseMove)
-    window.addEventListener("mouseup", onMouseUp)
+    const onDoubleTap = (e) => {
+      e.preventDefault()
+      this.applySelection(canvas, selection)
+    }
+
+    // Mouse events
+    selection.addEventListener("mousedown", onDragStart)
+    window.addEventListener("mousemove", onDragMove)
+    window.addEventListener("mouseup", onDragEnd)
     selection.addEventListener("dblclick", onDoubleClick)
+
+    // Touch events
+    selection.addEventListener("touchstart", onDragStart, { passive: false })
+    window.addEventListener("touchmove", onDragMove, { passive: false })
+    window.addEventListener("touchend", onDragEnd)
+
+    // Double-tap detection
+    let lastTap = 0
+    selection.addEventListener("touchend", (e) => {
+      const currentTime = new Date().getTime()
+      if (currentTime - lastTap < 300) {
+        onDoubleTap(e)
+      }
+      lastTap = currentTime
+    })
+  }
+
+  applySelection(canvas, selection) {
+    const finalX = parseInt(selection.style.left)
+    const finalY = parseInt(selection.style.top)
+    const finalWidth = parseInt(selection.style.width)
+    const finalHeight = parseInt(selection.style.height)
+
+    const tempCanvas = document.createElement("canvas")
+    tempCanvas.width = finalWidth
+    tempCanvas.height = finalHeight
+    const tempCtx = tempCanvas.getContext("2d")
+    tempCtx.putImageData(this.selectedImageData, 0, 0)
+    const resizedImage = tempCtx.getImageData(0, 0, finalWidth, finalHeight)
+
+    const ctx = canvas.getContext("2d")
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.putImageData(resizedImage, finalX, finalY)
+
+    const pageNum = parseInt(canvas.id.split("-")[1])
+    this.edits = this.edits.filter(e => e.page !== pageNum)
+    this.edits.push({
+      page: pageNum,
+      x: finalX,
+      y: finalY,
+      width: finalWidth,
+      height: finalHeight,
+      imageData: resizedImage
+    })
+
+    selection.remove()
+    this.cropRect = null
+    this.setStatus("Selection applied", "text-green-500")
   }
 
   downloadEditedPDF() {
     this.sendCroppedPDFToRails()
   }
-
 
   async sendCroppedPDFToRails() {
     const { PDFDocument } = window.PDFLib;
@@ -368,10 +388,6 @@ export default class extends Controller {
 
     const finalPdfBytes = await newPdfDoc.save();
     const blob = new Blob([finalPdfBytes], { type: "application/pdf" });
-
-    // Optional: open a preview tab before upload
-    // const debugUrl = URL.createObjectURL(blob);
-    // window.open(debugUrl, "_blank");
 
     // Send to backend
     const formData = new FormData();

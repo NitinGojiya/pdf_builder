@@ -151,13 +151,34 @@
   height: 400px;
 }
 
+/* pdf crop */
 
-  .crop-rect {
-    border: 2px dashed red;
-    position: absolute;
-    z-index: 9999;
-    pointer-events: none;
-  }
+/* Mobile-friendly crop rectangle */
+.crop-rect {
+  transition: left 0.1s ease, top 0.1s ease;
+  touch-action: none;
+  box-sizing: border-box;
+}
+
+.crop-rect button {
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  z-index: 100;
+}
+
+/* Prevent text selection during interactions */
+canvas, .crop-rect {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Mobile status messages */
+.status-message {
+  font-size: 0.9rem;
+  padding: 8px;
+}
+
 
   #pdf-container, [data-pdf-crop-target="fullContainer"] {
   max-height: 80vh;
