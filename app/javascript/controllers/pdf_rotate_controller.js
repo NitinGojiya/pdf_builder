@@ -16,6 +16,11 @@ export default class extends Controller {
     this.fileInputTarget.click()
   }
 
+  receiveFiles(files) {
+    // Handle the received files here
+    this.files = files
+  }
+
   async filesSelected(event) {
     const newFiles = Array.from(event.target.files)
     const newRotations = newFiles.map(() => 0)
@@ -161,69 +166,69 @@ export default class extends Controller {
   }
 
   getData() {
-  const result = this.files.map((file, index) => {
-    return {
-      file: file,
-      rotation: this.rotations[index]
-    }
-  })
+    const result = this.files.map((file, index) => {
+      return {
+        file: file,
+        rotation: this.rotations[index]
+      }
+    })
 
-  // console.log("Files with Rotation Data:", result)
+    // console.log("Files with Rotation Data:", result)
 
-  // Optionally return the result if used elsewhere
-  return result
-}
-
-sendrequest() {
-  // console.log("send request ")
-  if (this.files.length === 0) {
-    alert("No files selected");
-    return;
+    // Optionally return the result if used elsewhere
+    return result
   }
 
-  const loader = document.getElementById("fullscreen-loader");
-  loader.style.display = "flex";
+  sendrequest() {
+    // console.log("send request ")
+    if (this.files.length === 0) {
+      alert("No files selected");
+      return;
+    }
+
+    const loader = document.getElementById("fullscreen-loader");
+    loader.style.display = "flex";
 
 
-  const formData = new FormData();
+    const formData = new FormData();
 
-  // Append files and rotation degrees
-  this.files.forEach((file, index) => {
-    formData.append('files[]', file);
-    formData.append('rotations[]', this.rotations[index]); // added
-  });
-
-
-  fetch('/convert_pdf_rotate', {
-    method: 'POST',
-    headers: {
-      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
-    },
-    body: formData
-  })
-    .then(response => {
-      if (!response.ok) throw new Error("rotate failed");
-      return response.blob();
-    })
-    .then(blob => {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'rotate.zip';
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
-      window.location.href = '/pdf_rotate';
-    })
-    .catch(error => {
-      console.error("rotate error:", error);
-      alert("An error occurred while rotating.");
-    })
-    .finally(() => {
-      loader.style.display = "none";
+    // Append files and rotation degrees
+    this.files.forEach((file, index) => {
+      formData.append('files[]', file);
+      formData.append('rotations[]', this.rotations[index]); // added
     });
-}
+
+
+    fetch('/convert_pdf_rotate', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+      },
+      body: formData
+    })
+      .then(response => {
+        if (!response.ok) throw new Error("rotate failed");
+        return response.blob();
+      })
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'rotate.zip';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        window.location.href = '/pdf_rotate';
+      })
+      .catch(error => {
+        console.error("rotate error:", error);
+        alert("An error occurred while rotating.");
+      })
+      .finally(() => {
+        loader.style.display = "none";
+      });
+  }
 
 
 }

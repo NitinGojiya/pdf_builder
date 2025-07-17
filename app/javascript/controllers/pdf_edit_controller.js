@@ -55,7 +55,10 @@ export default class extends Controller {
   select() {
     this.fileInputTarget.click();
   }
-
+  receiveFiles(files) {
+    // Handle the received files here
+    this.files = files
+  }
   // Processes selected files and loads the first PDF
   filesSelected(event) {
     const newFiles = Array.from(event.target.files);
@@ -966,7 +969,7 @@ export default class extends Controller {
       // Send to server (adjust endpoint and headers as needed)
       const formData = new FormData();
       formData.append("file", pdfBlob, "edited-document.pdf");
-      formData.append("original_file",this.files[0])
+      formData.append("original_file", this.files[0])
       const loader = document.getElementById("fullscreen-loader");
       loader.style.display = "flex"; // Show loader
 

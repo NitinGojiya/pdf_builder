@@ -4,11 +4,15 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["fileInput", "selectButton", "buttonContainer", "uploadContainer", "pdfmergeContainer", "previewContainer"]
   connect() {
-     this.files = [] // Store files in memory
+    this.files = [] // Store files in memory
     console.log("PDF Compress Controller connected");
   }
   select() {
     this.fileInputTarget.click();
+  }
+  receiveFiles(files) {
+    // Handle the received files here
+    this.files = files
   }
   filesSelected(event) {
     console.log("Files selected:", event.target.files);
@@ -50,20 +54,20 @@ export default class extends Controller {
   }
 
   filepreview() {
-  this.previewContainerTarget.innerHTML = '';
+    this.previewContainerTarget.innerHTML = '';
 
-  // Make sure files is a mutable array
-  this.files = Array.from(this.files);
+    // Make sure files is a mutable array
+    this.files = Array.from(this.files);
 
-  this.files.forEach((file, index) => {
-    const blobURL = URL.createObjectURL(file);
+    this.files.forEach((file, index) => {
+      const blobURL = URL.createObjectURL(file);
 
-    const previewCard = document.createElement('div');
-    previewCard.className = "relative flex flex-col items-center justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm cursor-grab mb-2";
-    previewCard.draggable = true;
-    previewCard.dataset.index = index;
+      const previewCard = document.createElement('div');
+      previewCard.className = "relative flex flex-col items-center justify-center p-4 bg-green-50 border border-gray-200 rounded-lg shadow-sm cursor-grab mb-2";
+      previewCard.draggable = true;
+      previewCard.dataset.index = index;
 
-    previewCard.innerHTML = `
+      previewCard.innerHTML = `
       <!-- Number Badge -->
       <div class="absolute top-1 right-1 bg-blue-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center font-semibold ring-2 ring-white">
         ${index + 1}
@@ -83,110 +87,110 @@ export default class extends Controller {
       </button>
     `;
 
-    // Delete handler
-    previewCard.querySelector('.delete-btn').addEventListener('click', (e) => {
-      e.stopPropagation();
-      this.files.splice(index, 1);
-      this.filepreview();
-    });
-
-    // Drag and Drop Handlers
-    previewCard.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', index.toString());
-      e.currentTarget.classList.add('opacity-50');
-    });
-
-    previewCard.addEventListener('dragover', (e) => {
-      e.preventDefault(); // Allow drop
-      e.currentTarget.classList.add('ring', 'ring-blue-300');
-    });
-
-    previewCard.addEventListener('dragleave', (e) => {
-      e.currentTarget.classList.remove('ring', 'ring-blue-300');
-    });
-
-    previewCard.addEventListener('drop', (e) => {
-      e.preventDefault();
-      const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
-      const targetIndex = parseInt(e.currentTarget.dataset.index);
-
-      if (draggedIndex !== targetIndex) {
-        // Swap positions
-        const draggedFile = this.files[draggedIndex];
-        this.files.splice(draggedIndex, 1);
-        this.files.splice(targetIndex, 0, draggedFile);
+      // Delete handler
+      previewCard.querySelector('.delete-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.files.splice(index, 1);
         this.filepreview();
-      }
+      });
+
+      // Drag and Drop Handlers
+      previewCard.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', index.toString());
+        e.currentTarget.classList.add('opacity-50');
+      });
+
+      previewCard.addEventListener('dragover', (e) => {
+        e.preventDefault(); // Allow drop
+        e.currentTarget.classList.add('ring', 'ring-blue-300');
+      });
+
+      previewCard.addEventListener('dragleave', (e) => {
+        e.currentTarget.classList.remove('ring', 'ring-blue-300');
+      });
+
+      previewCard.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const draggedIndex = parseInt(e.dataTransfer.getData('text/plain'));
+        const targetIndex = parseInt(e.currentTarget.dataset.index);
+
+        if (draggedIndex !== targetIndex) {
+          // Swap positions
+          const draggedFile = this.files[draggedIndex];
+          this.files.splice(draggedIndex, 1);
+          this.files.splice(targetIndex, 0, draggedFile);
+          this.filepreview();
+        }
+      });
+
+      previewCard.addEventListener('dragend', (e) => {
+        e.currentTarget.classList.remove('opacity-50');
+      });
+
+      this.previewContainerTarget.appendChild(previewCard);
     });
-
-    previewCard.addEventListener('dragend', (e) => {
-      e.currentTarget.classList.remove('opacity-50');
-    });
-
-    this.previewContainerTarget.appendChild(previewCard);
-  });
-}
-
-compress() {
-  if (this.files.length === 0) {
-    alert("No files selected");
-    return;
   }
 
-  const loader = document.getElementById("fullscreen-loader");
-  loader.style.display = "flex"; // Show loader
+  compress() {
+    if (this.files.length === 0) {
+      alert("No files selected");
+      return;
+    }
 
-  const formData = new FormData();
-  this.files.forEach((file) => {
-    formData.append('files[]', file);
-  });
+    const loader = document.getElementById("fullscreen-loader");
+    loader.style.display = "flex"; // Show loader
 
-  const selectedLevel = document.querySelector('input[name="level"]:checked');
-  if (selectedLevel) {
-    formData.append('level', selectedLevel.value);
-  } else {
-    alert("Please select a compression level.");
-    loader.style.display = "none";
-    return;
-  }
+    const formData = new FormData();
+    this.files.forEach((file) => {
+      formData.append('files[]', file);
+    });
 
-  fetch('/compress', {
-    method: 'POST',
-    headers: {
-      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-    },
-    body: formData
-  })
-    .then(response => {
-      if (!response.ok) throw new Error("Compression failed");
-
-      const contentDisposition = response.headers.get("Content-Disposition") || "";
-      let filename = "compressed.pdf";
-
-      // Check if the response is a zip file
-      if (contentDisposition.includes(".zip")) {
-        filename = "compressed_pdfs.zip";
-      }
-
-      return response.blob().then(blob => ({ blob, filename }));
-    })
-    .then(({ blob, filename }) => {
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
-      window.location.href = '/pdf_compress';
-    })
-    .catch(error => {
-      console.error("Compress error:", error);
-      alert("An error occurred while compressing the files.");
-    })
-    .finally(() => {
+    const selectedLevel = document.querySelector('input[name="level"]:checked');
+    if (selectedLevel) {
+      formData.append('level', selectedLevel.value);
+    } else {
+      alert("Please select a compression level.");
       loader.style.display = "none";
-    });
-}
+      return;
+    }
+
+    fetch('/compress', {
+      method: 'POST',
+      headers: {
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: formData
+    })
+      .then(response => {
+        if (!response.ok) throw new Error("Compression failed");
+
+        const contentDisposition = response.headers.get("Content-Disposition") || "";
+        let filename = "compressed.pdf";
+
+        // Check if the response is a zip file
+        if (contentDisposition.includes(".zip")) {
+          filename = "compressed_pdfs.zip";
+        }
+
+        return response.blob().then(blob => ({ blob, filename }));
+      })
+      .then(({ blob, filename }) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        window.location.href = '/pdf_compress';
+      })
+      .catch(error => {
+        console.error("Compress error:", error);
+        alert("An error occurred while compressing the files.");
+      })
+      .finally(() => {
+        loader.style.display = "none";
+      });
+  }
 }

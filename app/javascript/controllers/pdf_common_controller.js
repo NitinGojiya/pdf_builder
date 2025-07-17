@@ -25,6 +25,10 @@ export default class extends Controller {
     // Clear file input so it can be reused
     this.fileInputTarget.value = '';
   }
+receiveFiles(files) {
+  // Handle the received files here
+  this.files = files
+}
 
   updateButtonText() {
     if (this.files.length === 0) {

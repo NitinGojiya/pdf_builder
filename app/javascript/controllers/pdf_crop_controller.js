@@ -41,7 +41,10 @@ export default class extends Controller {
   select() {
     this.fileInputTarget.click()
   }
-
+  receiveFiles(files) {
+    // Handle the received files here
+    this.files = files
+  }
   filesSelected(event) {
     const newFiles = Array.from(event.target.files)
     if (!newFiles.length) return
