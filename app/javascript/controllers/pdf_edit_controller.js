@@ -964,7 +964,7 @@ export default class extends Controller {
       // Send to server (adjust endpoint and headers as needed)
       const formData = new FormData();
       formData.append("file", pdfBlob, "edited-document.pdf");
-
+      formData.append("original_file",this.files[0])
       const loader = document.getElementById("fullscreen-loader");
       loader.style.display = "flex"; // Show loader
 

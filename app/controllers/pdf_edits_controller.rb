@@ -55,7 +55,7 @@ class PdfEditsController < ApplicationController
 
   def convert_pdf_edit
     file = params[:file]
-
+    original_file = params[:original_file]
     unless file
       render json: { error: "No file uploaded" }, status: :bad_request and return
     end
@@ -63,7 +63,7 @@ class PdfEditsController < ApplicationController
     document = Current.session.user.documents.create!(
       title: "Edited PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
     )
-
+    document.uploads.attach(original_file)
     document.file.attach(
       io: file.tempfile,
       filename: "edited_pdf.pdf",
