@@ -187,7 +187,7 @@ export default class extends Controller {
       <div id="edit-icon"
   class="editor-controls hidden fixed left-0 top-1/2 transform -translate-y-1/2 w-auto max-w-xs px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 bg-white py-4 rounded-lg shadow-lg z-50">
 
-  <div class="flex flex-col gap-2 justify-center items-start">
+  <div class="flex flex-col gap-2 justify-center items-stretch">
     <label class="flex items-center gap-2">
       <input type="color" id="color-picker"
             value="#000000"
@@ -198,36 +198,33 @@ export default class extends Controller {
 
     <button data-action="click->pdf-edit#toggleFullscreen"
             class="bg-blue-500 text-white text-sm px-3 py-1.5 rounded hover:bg-blue-600 transition">
-      Fullscreen
+      <i class="fa-solid fa-maximize"></i>
     </button>
     <button data-action="click->pdf-edit#setTextMode"
             class="bg-green-500 text-white text-sm px-3 py-1.5 rounded hover:bg-green-600 transition">
-      Add Text
+      <i class="fa-solid fa-font"></i>
     </button>
     <button data-action="click->pdf-edit#setImageMode"
             class="bg-yellow-500 text-white text-sm px-3 py-1.5 rounded hover:bg-yellow-600 transition">
-      Add Image
+      <i class="fa-solid fa-image"></i>
     </button>
     <button data-action="click->pdf-edit#setRectangleMode"
             class="bg-purple-500 text-white text-sm px-3 py-1.5 rounded hover:bg-purple-600 transition">
-      Rectangle
+      <i class="fa-solid fa-square"></i>
     </button>
     <button data-action="click->pdf-edit#setCircleMode"
             class="bg-purple-500 text-white text-sm px-3 py-1.5 rounded hover:bg-purple-600 transition">
-      Circle
+      <i class="fa-solid fa-circle"></i>
     </button>
     <button data-action="click->pdf-edit#setTriangleMode"
             class="bg-purple-500 text-white text-sm px-3 py-1.5 rounded hover:bg-purple-600 transition">
-      Triangle
+      <i class="fa-solid fa-triangle-exclamation"></i>
     </button>
     <button data-action="click->pdf-edit#undoLastEdit"
             class="bg-gray-500 text-white text-sm px-3 py-1.5 rounded hover:bg-gray-600 transition">
-      Undo
+      <i class="fa-solid fa-delete-left"></i>
     </button>
-    <button data-action="click->pdf-edit#saveEdits"
-            class="bg-red-500 text-white text-sm px-3 py-1.5 rounded hover:bg-red-600 transition">
-      Save
-    </button>
+
   </div>
 </div>
     `;
