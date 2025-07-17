@@ -561,18 +561,20 @@ export default class extends Controller {
 
     this.edits.forEach((edit, index) => {
       const div = document.createElement("div");
-      div.className = "bg-white shadow p-2 mb-2 rounded text-sm";
+      div.className = "bg-white shadow p-2 mb-2 rounded text-sm  flex items-center justify-start gap-1";
       div.dataset.editIndex = index;
 
       const label = document.createElement("p");
       label.className = "font-semibold";
-      label.textContent = `Edit ${index + 1}: ${edit.type} on Page ${edit.page}`;
+      label.innerHTML = `<i class="fa-solid fa-pen-fancy mr-1"></i> ${index + 1}: ${edit.type} on Page ${edit.page}`;
       div.appendChild(label);
+
 
       // Display and allow editing of text content and font size
       if (edit.type === "text") {
         const detail = document.createElement("p");
-        detail.textContent = `Text: "${edit.content}" at (${Math.round(edit.x)}, ${Math.round(edit.y)})`;
+        detail.textContent = `Text: "${edit.content}" `;
+        detail.className = "text-sm text-gray-700 truncate w-full";
         div.appendChild(detail);
 
         const fontInput = document.createElement("input");
