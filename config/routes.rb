@@ -66,4 +66,8 @@ Rails.application.routes.draw do
   #  pdf edit routes
   get "pdf_edit", controller: "pdf_edits", as: "pdf_edit"
   post "convert_pdf_edit", to: "pdf_edits#convert_pdf_edit", as: "convert_pdf_edit"
+
+  #  pdf crop routes
+  get "pdf_crop", controller: "pdf_edits", as: "pdf_crop"
+  post "convert_pdf_crop", to: "pdf_edits#convert_pdf_crop", as: "convert_pdf_crop"
 end

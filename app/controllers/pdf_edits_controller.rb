@@ -1,5 +1,34 @@
 require "combine_pdf"
 require "zip"
+require "mini_magick"
+# Controller for handling PDF editing operations such as rotation, cropping, and general edits.
+#
+# Actions:
+# - convert_pdf_rotate: Rotates each uploaded PDF file by a specified degree and returns a ZIP archive of the rotated PDFs.
+#   Params:
+#     - files: Array of uploaded PDF files.
+#     - rotations: Array of rotation degrees corresponding to each file.
+#   Responses:
+#     - Returns a ZIP file containing the rotated PDFs as an attachment.
+#     - Returns error if files or rotations are missing or mismatched.
+#
+# - convert_pdf_edit: Handles editing of a PDF file and returns the edited PDF.
+#   Params:
+#     - file: The edited PDF file.
+#     - original_file: The original PDF file (for record keeping).
+#   Responses:
+#     - Returns the edited PDF inline.
+#     - Returns error if no file is uploaded.
+#
+# - convert_pdf_crop: Handles cropping of a PDF file and returns the cropped PDF.
+#   Params:
+#     - cropped_pdf: The cropped PDF file.
+#     - original_pdf: The original PDF file (for record keeping).
+#   Responses:
+#     - Returns the cropped PDF as an attachment.
+#     - Returns error if no cropped file is received.
+#
+# All actions create a Document record associated with the current user session and attach relevant files for audit and retrieval.
 class PdfEditsController < ApplicationController
   def convert_pdf_rotate
     uploaded_files = params[:files]
@@ -75,4 +104,41 @@ class PdfEditsController < ApplicationController
               type: document.file.content_type,
               disposition: "inline"
   end
+
+def convert_pdf_crop
+  file = params[:cropped_pdf]
+  original_pdf = params[:original_pdf]
+
+  document = Current.session.user.documents.create!(
+    title: "Crop PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+  )
+  document.uploads.attach(original_pdf) if original_pdf.present?
+
+  if file.present?
+    temp = Tempfile.new(["client_cropped", ".pdf"], binmode: true)
+    temp.write(file.read)
+    temp.rewind
+
+    document.file.attach(
+      io: temp,
+      filename: "cropped_pdf.pdf",
+      content_type: "application/pdf"
+    )
+
+    temp.rewind  #  reading from the beginning
+
+    send_data temp.read,
+              filename: "cropped_pdf.pdf",
+              type: "application/pdf",
+              disposition: "attachment"
+
+    temp.close
+    temp.unlink
+  else
+    render json: { error: "No file received" }, status: :unprocessable_entity
+  end
+end
+
+
+
 end

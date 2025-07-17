@@ -150,3 +150,20 @@
 .preview-thumbnail{
   height: 400px;
 }
+
+
+  .crop-rect {
+    border: 2px dashed red;
+    position: absolute;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  #pdf-container, [data-pdf-crop-target="fullContainer"] {
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+canvas {
+  cursor: crosshair;
+}
