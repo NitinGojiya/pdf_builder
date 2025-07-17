@@ -1,5 +1,9 @@
-.hero-back{
+.hero-back {
     background-color: #4b5c1e;
+    background-image: url(/hero2.jpg); /* Replace with your actual image path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     position: relative;
     z-index: 1;
@@ -11,6 +15,5 @@
     height: 500px;
     margin: 2rem auto;
 }
-
 
 
