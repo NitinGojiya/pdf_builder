@@ -353,19 +353,31 @@ class ConversionsController < ApplicationController
 
   def convert_html_to_pdf
     url = params[:url]
-    output = Rails.root.join("tmp", "output.pdf")
-       document = Current.session.user.documents.create!(
+    output_path = Rails.root.join("tmp", "output.pdf")
+
+    # Generate PDF using headless Chrome
+    system("google-chrome --headless --disable-gpu --print-to-pdf=#{output_path} #{url}")
+
+    unless File.exist?(output_path)
+      render plain: "PDF generation failed", status: :internal_server_error and return
+    end
+
+    # Create a new document record
+    document = Current.session.user.documents.create!(
       title: "Html To PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
     )
-    document.uploads.attach(output)
+
+    # Attach the generated PDF to the document
     document.file.attach(
-          io: output,
-          filename: "html to pdf",
-          content_type: "application/pdf"
-        )
-    system("google-chrome --headless --disable-gpu --print-to-pdf=#{output} #{url}")
-    send_file output, filename: "converted.pdf", type: "application/pdf", disposition: "inline"
+      io: File.open(output_path),
+      filename: "html_to_pdf.pdf",
+      content_type: "application/pdf"
+    )
+
+    # Send the PDF file to the user
+    send_file output_path, filename: "converted.pdf", type: "application/pdf", disposition: "inline"
   end
+
 
 
   private
