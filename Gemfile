@@ -72,7 +72,6 @@ gem "combine_pdf"          # Merge PDFs
 gem "mini_magick"          # Image to PDF
 gem "docsplit"             # (optional) Word/Docx to PDF
 
-
 gem "prawn"             # optional for PDF generation
 gem "rubyzip", "~> 1.3"
 
@@ -86,11 +85,7 @@ gem "convert_api" # Convert API for ppt conversion
 # for excel generation
 gem "caxlsx" # "axlsx_rails"
 
-# for excel conversion
-# gem "docx_converter"
-
 # for pdf security
 gem "hexapdf" # PDF security operations
-
 
 gem 'prawn-templates'

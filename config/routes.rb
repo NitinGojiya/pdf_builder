@@ -74,4 +74,8 @@ Rails.application.routes.draw do
   #  pdf watermark routes
   get "pdf_watermark", controller: "pdf_edits", as: "pdf_watermark"
   post "convert_pdf_watermark", to: "pdf_edits#convert_pdf_watermark", as: "convert_pdf_watermark"
+
+  #  pdf sign routes
+  get "pdf_sign", controller: "pdf_edits", as: "pdf_sign"
+  post "convert_pdf_sign", to: "pdf_edits#convert_pdf_sign", as: "convert_pdf_sign"
 end

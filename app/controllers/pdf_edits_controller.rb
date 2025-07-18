@@ -242,4 +242,48 @@ class PdfEditsController < ApplicationController
 
     send_file output_pdf.path, filename: "watermarked.pdf", type: "application/pdf"
   end
+
+  def convert_pdf_sign
+    uploaded_signed_pdf = params[:signed_pdf]
+    original_pdf        = params[:original_pdf]
+
+    if uploaded_signed_pdf.nil?
+      render json: { error: "No signed PDF uploaded" }, status: 422 and return
+    end
+
+    # Save the signed file temporarily
+    timestamp = Time.now.to_i
+    signed_pdf_path = Rails.root.join("tmp", "signed_#{timestamp}.pdf")
+    File.open(signed_pdf_path, "wb") { |f| f.write(uploaded_signed_pdf.read) }
+
+    # Save original PDF (if needed later or for auditing)
+    if original_pdf.present?
+      original_pdf.rewind
+    end
+
+    # Create document record for current user
+    document = Current.session.user.documents.create!(
+      title: "Signed PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+
+    # Attach original file if it exists
+    if original_pdf.present?
+      document.uploads.attach(
+        io: original_pdf,
+        filename: original_pdf.original_filename,
+        content_type: original_pdf.content_type
+      )
+    end
+
+    # Attach the signed PDF as the 'file'
+    document.file.attach(
+      io: File.open(signed_pdf_path),
+      filename: "signed.pdf",
+      content_type: "application/pdf"
+    )
+
+    # Respond with the signed file (client will trigger download)
+    send_file signed_pdf_path, filename: "final_signed.pdf", type: "application/pdf"
+  end
+
 end
