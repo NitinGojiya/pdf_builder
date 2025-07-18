@@ -89,3 +89,5 @@ gem "caxlsx" # "axlsx_rails"
 gem "hexapdf" # PDF security operations
 
 gem 'prawn-templates'
+
+gem 'grover'

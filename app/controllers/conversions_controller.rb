@@ -351,6 +351,21 @@ class ConversionsController < ApplicationController
     end
   end
 
+  def convert_html_to_pdf
+    url = params[:url]
+    output = Rails.root.join("tmp", "output.pdf")
+       document = Current.session.user.documents.create!(
+      title: "Html To PDF - #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+    document.uploads.attach(output)
+    document.file.attach(
+          io: output,
+          filename: "html to pdf",
+          content_type: "application/pdf"
+        )
+    system("google-chrome --headless --disable-gpu --print-to-pdf=#{output} #{url}")
+    send_file output, filename: "converted.pdf", type: "application/pdf", disposition: "inline"
+  end
 
 
   private

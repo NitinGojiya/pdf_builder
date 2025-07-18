@@ -1,0 +1,65 @@
+<div class="flex items-center justify-center" data-controller="html-pdf">
+    <div class="p-6 sm:p-8 lg:p-10  text-center max-w-xl w-full capitalize" data-html-pdf-target="preload">
+    <!-- Main Title -->
+    <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+         HTML to PDF
+    </h1>
+    <!-- Description -->
+    <p class="text-base sm:text-lg text-gray-600 mb-8">
+        Convert web pages to PDF documents with high accuracy
+    </p>
+    <!-- Buttons Container -->
+    <div class="">
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 ">
+      <!-- Select PDF Files Button -->
+        <!-- Select PDF Files Button -->
+            <button
+            data-action="html-pdf#openModal"
+            data-html-pdf-target="selectButton"
+            class="flex items-center justify-center bg-[#4b5c1e] hover:bg-[#819067] hover:text-black text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 ease-in-out transform hover:scale-105 w-full sm:w-auto">
+            Add Html
+            </button>
+
+            <!-- Dialog modal -->
+            <dialog id="html_modal" data-html-pdf-target="modal" class="modal">
+            <div class="modal-box">
+                <h3 class="text-lg font-bold">Hello!</h3>
+                <input type="text" class="border-4"  data-html-pdf-target="urlInput" placeholder="url">
+                <button class="btn btn-success" data-action="html-pdf#submitUrl">submit</button>
+                <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn">Close</button>
+                </form>
+                </div>
+            </div>
+            </dialog>
+
+        <!-- Icon Buttons Container -->
+        <div class="flex gap-4">
+            <!-- First Circular Icon Button (e.g., Upload) -->
+            <button
+                class="flex items-center justify-center bg-[#4b5c1e] hover:bg-[#819067] hover:text-black text-white p-3 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 text-3xl">
+                <!-- Lucide Upload icon SVG -->
+                <i class="fa-brands fa-google-drive"></i>
+            </button>
+
+            <!-- Second Circular Icon Button (e.g., Download/Merge) -->
+            <button
+                class="flex items-center justify-center bg-[#4b5c1e] hover:bg-[#819067] hover:text-black text-white p-3 rounded-full shadow-md transition duration-300 ease-in-out transform hover:scale-105 text-3xl">
+
+                <i class="fa-brands fa-dropbox"></i>
+            </button>
+        </div>
+        </div>
+
+    </div>
+</div>
+<div data-html-pdf-target="postload" class="hidden">
+    <p>change url</p>
+</div>
+</div>
+
+
+
+
