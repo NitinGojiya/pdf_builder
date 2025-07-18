@@ -70,4 +70,8 @@ Rails.application.routes.draw do
   #  pdf crop routes
   get "pdf_crop", controller: "pdf_edits", as: "pdf_crop"
   post "convert_pdf_crop", to: "pdf_edits#convert_pdf_crop", as: "convert_pdf_crop"
+
+  #  pdf watermark routes
+  get "pdf_watermark", controller: "pdf_edits", as: "pdf_watermark"
+  post "convert_pdf_watermark", to: "pdf_edits#convert_pdf_watermark", as: "convert_pdf_watermark"
 end

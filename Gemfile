@@ -91,3 +91,6 @@ gem "caxlsx" # "axlsx_rails"
 
 # for pdf security
 gem "hexapdf" # PDF security operations
+
+
+gem 'prawn-templates'

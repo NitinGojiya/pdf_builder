@@ -230,6 +230,9 @@ GEM
       matrix (~> 0.4)
       pdf-core (~> 0.10.0)
       ttfunk (~> 1.8)
+    prawn-templates (0.1.2)
+      pdf-reader (~> 2.0)
+      prawn (~> 2.2)
     prettyprint (0.2.0)
     prism (1.4.0)
     propshaft (1.1.0)
@@ -430,6 +433,7 @@ DEPENDENCIES
   mini_magick
   pdf-reader
   prawn
+  prawn-templates
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)

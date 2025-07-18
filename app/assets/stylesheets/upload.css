@@ -188,3 +188,14 @@ canvas, .crop-rect {
 canvas {
   cursor: crosshair;
 }
+
+
+/* watermark red dot */
+
+.red-dot {
+  width: 20px;
+  height: 20px;
+  background-color: #4b5c1e;
+  border-radius: 9999px;
+  position: absolute;
+}
