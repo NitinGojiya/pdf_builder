@@ -91,3 +91,9 @@ gem "hexapdf" # PDF security operations
 gem 'prawn-templates'
 
 gem 'grover'
+
+# email preview
+group :development do
+  gem 'letter_opener'
+  gem 'letter_opener_web'
+end

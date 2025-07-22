@@ -82,4 +82,8 @@ Rails.application.routes.draw do
   #  pdf sign routes
   get "pdf_sign", controller: "pdf_edits", as: "pdf_sign"
   post "convert_pdf_sign", to: "pdf_edits#convert_pdf_sign", as: "convert_pdf_sign"
+
+   if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end
