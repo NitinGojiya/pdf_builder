@@ -35,8 +35,14 @@ rails db:seed # optional
 PostgreSQL for the database
 
 📸 Screen
+
+* ...
+
+* Employee Home Page
+![Screenshot of the application](app/assets/screen/home.png)
+
 * Home Page
-![Home Page](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/home.png)
+![Home Page](app/assets/screen/home.png)
 
 * Page 2
 ![Page 2](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p2.png)
