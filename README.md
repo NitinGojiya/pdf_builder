@@ -35,15 +35,17 @@ rails db:seed # optional
 PostgreSQL for the database
 
 📸 Screen
-![Home Page](screen/home.png)
-![Home Page](screen/p2.png)
-![Home Page](screen/p3.png)
-![Home Page](screen/p4.png)
-![Home Page](screen/p5.png)
-![Home Page](screen/p6.png)
-![Home Page](screen/p7.png)
-![Home Page](screen/p8.png)
-![Home Page](screen/p9.png)
+* Home Page
+![Home Page](app/assets/screen/home.png)
+* ...
+![Home Page](app/assets/screen/p2.png)
+![Home Page](app/assets/screen/p3.png)
+![Home Page](app/assets/screen/p4.png)
+![Home Page](app/assets/screen/p5.png)
+![Home Page](app/assets/screen/p6.png)
+![Home Page](app/assets/screen/p7.png)
+![Home Page](app/assets/screen/p8.png)
+![Home Page](app/assets/screen/p9.png)
 
 👨‍💻 Author
 Nitin Gojiya https://nitingojiya.vercel.app/
