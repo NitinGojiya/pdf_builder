@@ -34,6 +34,7 @@ rails db:seed # optional
 🧰 Services Used
 PostgreSQL for the database
 
+---
 📸 Screen
 
 * ...
