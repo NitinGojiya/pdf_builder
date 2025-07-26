@@ -37,36 +37,15 @@ PostgreSQL for the database
 📸 Screen
 
 * ...
+## 📸 Screenshots
 
-* Employee Home Page
-![Screenshot of the application](app/assets/screen/home.png)
+### Page 2
 
-* Home Page
-![Home Page](app/assets/screen/home.png)
+![Page 2](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p2.png)
 
-* Page 2
-![Page 2](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p2.png)
+### Page 3
 
-* Page 3
-![Page 3](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p3.png)
-
-* Page 4
-![Page 4](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p4.png)
-
-* Page 5
-![Page 5](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p5.png)
-
-* Page 6
-![Page 6](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p6.png)
-
-* Page 7
-![Page 7](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p7.png)
-
-* Page 8
-![Page 8](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p8.png)
-
-* Page 9
-![Page 9](https://github.com/NitinGojiya/pdf_builder/raw/main/app/assets/screen/p9.png)
+![Page 3](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p3.png)
 
 
 👨‍💻 Author
