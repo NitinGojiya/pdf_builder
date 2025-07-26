@@ -1,7 +1,7 @@
 # 📄 pdfbuilder
 
 A Ruby on Rails application for building and managing PDFs.
-**Version**: black
+**Version**: `black`
 
 ---
 
@@ -9,8 +9,8 @@ A Ruby on Rails application for building and managing PDFs.
 
 ### 🔧 Requirements
 
-- Ruby (ruby-3.4.2)
-- Rails (version 8.0.0)
+- Ruby `3.4.2`
+- Rails `8.0.0`
 - PostgreSQL
 - Git
 
@@ -19,26 +19,41 @@ A Ruby on Rails application for building and managing PDFs.
 ### 📥 Cloning the Repository
 
 ```bash
-git clone https://github.com/NitinGojiya/pdf_builder
+git clone https://github.com/NitinGojiya/pdf_builder.git
 cd pdf_builder
+```
 
-⚙️ Installation
+---
 
+### ⚙️ Installation
+
+```bash
 bundle install
+```
 
-🗃️ Database Setup
+---
+
+### 🗃️ Database Setup
+
+```bash
 rails db:create
 rails db:migrate
 rails db:seed # optional
-
-🧰 Services Used
-PostgreSQL for the database
+```
 
 ---
-📸 Screen
 
-* ...
+### 🧰 Services Used
+
+- PostgreSQL (Database)
+
+---
+
 ## 📸 Screenshots
+
+### Page 1
+
+![Page 1](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/home.png)
 
 ### Page 2
 
@@ -48,6 +63,33 @@ PostgreSQL for the database
 
 ![Page 3](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p3.png)
 
+### Page 4
 
-👨‍💻 Author
-Nitin Gojiya https://nitingojiya.vercel.app/
+![Page 4](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p4.png)
+
+### Page 5
+
+![Page 5](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p5.png)
+
+### Page 6
+
+![Page 6](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p6.png)
+
+### Page 7
+
+![Page 7](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p7.png)
+
+### Page 8
+
+![Page 8](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p8.png)
+
+### Page 9
+
+![Page 9](https://raw.githubusercontent.com/NitinGojiya/pdf_builder/main/app/assets/screen/p9.png)
+
+---
+
+## 👨‍💻 Author
+
+**Nitin Gojiya**
+🌐 [nitingojiya.vercel.app](https://nitingojiya.vercel.app)
