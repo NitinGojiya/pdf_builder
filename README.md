@@ -36,7 +36,7 @@ PostgreSQL for the database
 
 📸 Screen
 * Home Page
-![Home Page](app/assets/screen/home.png)
+![Home Page](https://github.com/NitinGojiya/pdf_builder/blob/main/app/assets/screen/home.png)
 * ...
 ![Home Page](app/assets/screen/p2.png)
 ![Home Page](app/assets/screen/p3.png)
