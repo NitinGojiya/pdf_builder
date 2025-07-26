@@ -1,24 +1,49 @@
-# README
+# 📄 pdfbuilder
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A Ruby on Rails application for building and managing PDFs.
+**Version**: black
 
-Things you may want to cover:
+---
 
-* Ruby version
+## 🚀 Getting Started
 
-* System dependencies
+### 🔧 Requirements
 
-* Configuration
+- Ruby (ruby-3.4.2)
+- Rails (version 8.0.0)
+- PostgreSQL
+- Git
 
-* Database creation
+---
 
-* Database initialization
+### 📥 Cloning the Repository
 
-* How to run the test suite
+```bash
+git clone https://github.com/NitinGojiya/pdf_builder
+cd pdf_builder
 
-* Services (job queues, cache servers, search engines, etc.)
+⚙️ Installation
 
-* Deployment instructions
+bundle install
 
-* ...
+🗃️ Database Setup
+rails db:create
+rails db:migrate
+rails db:seed # optional
+
+🧰 Services Used
+PostgreSQL for the database
+
+📸 Screen
+![Home Page](screen/home.png)
+![Home Page](screen/p2.png)
+![Home Page](screen/p3.png)
+![Home Page](screen/p4.png)
+![Home Page](screen/p5.png)
+![Home Page](screen/p6.png)
+![Home Page](screen/p7.png)
+![Home Page](screen/p8.png)
+![Home Page](screen/p9.png)
+
+👨‍💻 Author
+Nitin Gojiya https://nitingojiya.vercel.app/
