@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resources :users
+  get '/auth/:provider/callback', to: 'sessions#omniauth'
+
 
   get "document_preview", to: "documents#document_preview", as: "document_preview"
   delete "file_destroy/:id", to: "documents#file_destroy", as: "file_destroy"
