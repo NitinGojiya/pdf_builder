@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resources :users
-  get '/auth/:provider/callback', to: 'sessions#omniauth'
+  get "/auth/:provider/callback", to: "sessions#omniauth"
 
 
   get "document_preview", to: "documents#document_preview", as: "document_preview"
@@ -85,7 +85,6 @@ Rails.application.routes.draw do
   get "pdf_sign", controller: "pdf_edits", as: "pdf_sign"
   post "convert_pdf_sign", to: "pdf_edits#convert_pdf_sign", as: "convert_pdf_sign"
 
-   if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
+  # errors
+  match "*unmatched", to: "errors#not_found", via: :all
 end
