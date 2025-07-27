@@ -24,9 +24,15 @@
             <!-- Dialog modal -->
             <dialog id="html_modal" data-html-pdf-target="modal" class="modal">
             <div class="modal-box">
-                <h3 class="text-lg font-bold">Hello!</h3>
-                <input type="text" class="border-4"  data-html-pdf-target="urlInput" placeholder="url">
-                <button class="btn btn-success" data-action="html-pdf#submitUrl">submit</button>
+                <h3 class="text-lg font-bold">Enter URL to convert</h3>
+                <input
+                type="text"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#4b5c1e] focus:border-transparent bg-white text-black"
+                data-html-pdf-target="urlInput"
+                placeholder="https://www.example.com"
+                />
+
+                <button class="mt-2 btn bg-[#4b5c1e] hover:bg-[#819067] hover:text-black text-white rounded-xl" data-action="html-pdf#submitUrl">Convert</button>
                 <div class="modal-action">
                 <form method="dialog">
                     <button class="btn">Close</button>
