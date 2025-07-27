@@ -5,7 +5,7 @@ export default class extends Controller {
   static targets = ["fileInput", "selectButton", "buttonContainer", "uploadContainer", "pdfmergeContainer", "previewContainer"]
 
   connect() {
-    console.log("controller connect")
+    // console.log("controller connect")
     this.files = []
   }
 
@@ -45,11 +45,12 @@ receiveFiles(files) {
       // console.log("file:", this.files);
       // send data other controller
 
-      const controllerName = document.querySelector("#controller").innerHTML; // e.g., "pdf-upload"
+      const controllerName = document.querySelector("#controller1").innerHTML; // e.g., "pdf-upload"
 
       const uploadElement = document.querySelector(`[data-controller~="${controllerName}"]`);
       const uploadController = this.application.getControllerForElementAndIdentifier(uploadElement, controllerName);
 
+      // console.log(controllerName);
       if (uploadController) {
         uploadController.receiveFiles(this.files); // send files
       } else {
