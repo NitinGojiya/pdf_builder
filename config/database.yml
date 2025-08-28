@@ -11,13 +11,24 @@ test:
   database: storage/test.sqlite3
 
 production:
-  primary:  # Add this 'primary' key
+  primary:
     adapter: postgresql
     encoding: unicode
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    url: <%= ENV['DATABASE_URL'] %>
-  cable:    # Add this 'cable' configuration
+    database: your_app_production
+    username: <%= ENV['DATABASE_USERNAME'] %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] %>
+  cable:
     adapter: postgresql
     encoding: unicode
-    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-    url: <%= ENV['DATABASE_URL'] %>  # Same as primary database
+    database: your_app_production
+    username: <%= ENV['DATABASE_USERNAME'] %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] %>
+  queue:
+    adapter: postgresql
+    encoding: unicode
+    database: your_app_production
+    username: <%= ENV['DATABASE_USERNAME'] %>
+    password: <%= ENV['DATABASE_PASSWORD'] %>
+    host: <%= ENV['DATABASE_HOST'] %>
