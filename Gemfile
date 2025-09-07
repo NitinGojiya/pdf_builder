@@ -103,3 +103,6 @@ gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem "env"
 gem "pg"
+
+gem "cloudinary"
+gem "activestorage-cloudinary-service", "~> 0.2.0"
