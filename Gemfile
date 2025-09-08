@@ -102,6 +102,7 @@ end
 gem 'omniauth'
 gem 'omniauth-google-oauth2'
 gem "env"
+gem 'dotenv-rails'
 gem "pg"
 
 gem "cloudinary"

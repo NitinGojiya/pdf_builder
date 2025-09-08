@@ -14,7 +14,7 @@ production:
   primary:
     adapter: postgresql
     encoding: unicode
-    database: your_app_production
+    database: pdfbuilder
     username: <%= ENV['DATABASE_USERNAME'] %>
     password: <%= ENV['DATABASE_PASSWORD'] %>
     host: <%= ENV['DATABASE_HOST'] %>
@@ -22,7 +22,7 @@ production:
   cable:
     adapter: postgresql
     encoding: unicode
-    database: your_app_production
+    database: pdfbuilder
     username: <%= ENV['DATABASE_USERNAME'] %>
     password: <%= ENV['DATABASE_PASSWORD'] %>
     host: <%= ENV['DATABASE_HOST'] %>
@@ -30,7 +30,7 @@ production:
   queue:
     adapter: postgresql
     encoding: unicode
-    database: your_app_production
+    database: pdfbuilder
     username: <%= ENV['DATABASE_USERNAME'] %>
     password: <%= ENV['DATABASE_PASSWORD'] %>
     host: <%= ENV['DATABASE_HOST'] %>
@@ -38,7 +38,7 @@ production:
   cache:   # ✅ Solid Cache needs this in Rails 8
     adapter: postgresql
     encoding: unicode
-    database: your_app_production
+    database: pdfbuilder
     username: <%= ENV['DATABASE_USERNAME'] %>
     password: <%= ENV['DATABASE_PASSWORD'] %>
     host: <%= ENV['DATABASE_HOST'] %>
